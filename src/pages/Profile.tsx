@@ -7,9 +7,12 @@ import { movieService } from '../services/movieService';
 import { Movie } from '../types/movie.types';
 import MovieCard from '../components/MovieCard';
 import Loading from '../components/Loading';
+import { useToast } from '../hooks/useToast';
+import Toast from '../components/Toast';
 
 const Profile: React.FC = () => {
   const { user: authUser, updateUser: updateAuthUser } = useAuth();
+  const { toast, hideToast, success, error, warning } = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null); // Profile completo del usuario
@@ -69,16 +72,16 @@ const Profile: React.FC = () => {
       });
       
       setIsEditing(false);
-      alert('✅ Perfil actualizado exitosamente');
+      success('Perfil actualizado exitosamente');
     } catch (error: any) {
       console.error('Error al actualizar perfil:', error);
       
       // Manejar errores específicos
       if (error.response?.status === 413) {
-        alert('❌ La imagen es muy grande. Por favor:\n\n1. Usa una imagen más pequeña\n2. O comprímela en: https://tinypng.com/\n\nMáximo recomendado: 2MB');
+        error('La imagen es muy grande. Por favor usa una imagen más pequeña o comprímela. Máximo recomendado: 2MB');
       } else {
         const errorMsg = error.response?.data?.message || error.message || 'Error al actualizar el perfil';
-        alert(`❌ ${errorMsg}`);
+        error(errorMsg);
       }
     }
   };
@@ -88,11 +91,13 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="min-h-screen bg-dark pt-20 pb-12"
-    >
+    <>
+      <Toast {...toast} onClose={hideToast} />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="min-h-screen bg-dark pt-20 pb-12"
+      >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header del perfil */}
         <div className="bg-dark-light rounded-2xl p-8 mb-8 border border-dark-lighter">
@@ -143,7 +148,7 @@ const Profile: React.FC = () => {
                             if (file) {
                               // Validar tamaño (máximo 2MB)
                               if (file.size > 2 * 1024 * 1024) {
-                                alert('La imagen es muy grande. Máximo 2MB permitido.');
+                                warning('La imagen es muy grande. Máximo 2MB permitido.');
                                 return;
                               }
 
@@ -151,9 +156,10 @@ const Profile: React.FC = () => {
                               const reader = new FileReader();
                               reader.onloadend = () => {
                                 setProfileData({ ...profileData, avatar: reader.result as string });
+                                success('Imagen cargada correctamente');
                               };
                               reader.onerror = () => {
-                                alert('Error al cargar la imagen. Intenta con otra.');
+                                error('Error al cargar la imagen. Intenta con otra.');
                               };
                               reader.readAsDataURL(file);
                             }
@@ -311,6 +317,7 @@ const Profile: React.FC = () => {
         </div>
       </div>
     </motion.div>
+    </>
   );
 };
 

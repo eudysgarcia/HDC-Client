@@ -4,6 +4,7 @@ import { Star, Play, Heart } from 'lucide-react';
 import { Movie } from '../types/movie.types';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import { useToastContext } from '../context/ToastContext';
 import { userService } from '../services/userService';
 
 interface MovieCardProps {
@@ -13,6 +14,7 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, index = 0 }) => {
   const { isAuthenticated } = useAuth();
+  const { warning, success } = useToastContext();
   const [isFavorite, setIsFavorite] = useState(false);
   const placeholderImage = 'https://via.placeholder.com/300x450/1f1f1f/666666?text=Sin+Imagen';
   
@@ -28,7 +30,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, index = 0 }) => {
     e.stopPropagation();
     
     if (!isAuthenticated) {
-      alert('Debes iniciar sesión para agregar favoritos');
+      warning('Debes iniciar sesión para agregar favoritos');
       return;
     }
 
@@ -36,9 +38,11 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, index = 0 }) => {
       if (isFavorite) {
         await userService.removeFromFavorites(movie.id);
         setIsFavorite(false);
+        success('Eliminado de favoritos');
       } else {
         await userService.addToFavorites(movie.id);
         setIsFavorite(true);
+        success('Agregado a favoritos');
       }
     } catch (error) {
       console.error('Error al actualizar favoritos:', error);

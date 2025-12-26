@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, ThumbsUp, Trash2, Edit2, Send } from 'lucide-react';
+import { Star, ThumbsUp, Trash2, Send } from 'lucide-react';
 import { Review } from '../types/review.types';
 import { reviewService } from '../services/reviewService';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
+import Toast from './Toast';
+import ConfirmDialog from './ConfirmDialog';
 
 interface ReviewSectionProps {
   movieId: number;
@@ -14,6 +18,8 @@ interface ReviewSectionProps {
 
 const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, reviews, onReviewAdded }) => {
   const { user, isAuthenticated } = useAuth();
+  const { toast, hideToast, success, error, warning } = useToast();
+  const { confirmState, confirm, cancel } = useConfirm();
   const [showForm, setShowForm] = useState(false);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
@@ -24,7 +30,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
     e.preventDefault();
     
     if (!isAuthenticated) {
-      alert('Debes iniciar sesión para escribir una reseña');
+      warning('Debes iniciar sesión para escribir una reseña');
       return;
     }
 
@@ -32,17 +38,17 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
     const trimmedComment = comment.trim();
     
     if (!trimmedComment) {
-      alert('Por favor escribe un comentario');
+      error('Por favor escribe un comentario');
       return;
     }
 
     if (trimmedComment.length < 10) {
-      alert(`El comentario debe tener al menos 10 caracteres. Actualmente: ${trimmedComment.length}`);
+      warning(`El comentario debe tener al menos 10 caracteres. Actualmente: ${trimmedComment.length}`);
       return;
     }
 
     if (trimmedComment.length > 1000) {
-      alert('El comentario no puede tener más de 1000 caracteres');
+      error('El comentario no puede tener más de 1000 caracteres');
       return;
     }
 
@@ -60,11 +66,11 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
       setRating(5);
       setShowForm(false);
       onReviewAdded();
-      alert('¡Reseña publicada exitosamente!');
+      success('¡Reseña publicada exitosamente!');
     } catch (error: any) {
       console.error('Error al crear review:', error);
       const errorMsg = error.response?.data?.message || 'Error al publicar la reseña. Intenta de nuevo.';
-      alert(errorMsg);
+      error(errorMsg);
     } finally {
       setSubmitting(false);
     }
@@ -80,18 +86,31 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
   };
 
   const handleDelete = async (reviewId: string) => {
-    if (!confirm('¿Estás seguro de eliminar esta reseña?')) return;
+    const confirmed = await confirm({
+      title: 'Eliminar Reseña',
+      message: '¿Estás seguro de que deseas eliminar esta reseña? Esta acción no se puede deshacer.',
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar',
+      variant: 'danger',
+    });
+
+    if (!confirmed) return;
 
     try {
       await reviewService.delete(reviewId);
       onReviewAdded();
-    } catch (error) {
-      console.error('Error al eliminar review:', error);
+      success('Reseña eliminada correctamente');
+    } catch (err) {
+      console.error('Error al eliminar review:', err);
+      error('Error al eliminar la reseña');
     }
   };
 
   return (
-    <div className="space-y-6">
+    <>
+      <Toast {...toast} onClose={hideToast} />
+      <ConfirmDialog {...confirmState} onCancel={cancel} />
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="text-2xl font-bold text-white">
@@ -287,6 +306,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
         )}
       </div>
     </div>
+    </>
   );
 };
 

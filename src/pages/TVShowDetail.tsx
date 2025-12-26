@@ -26,7 +26,7 @@ const TVShowDetail: React.FC = () => {
   const [seasons, setSeasons] = useState<Season[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'info' | 'episodes' | 'cast'>('info');
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviews] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchShowData = async () => {
@@ -86,57 +86,65 @@ const TVShowDetail: React.FC = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-dark pt-16"
+      className="min-h-screen bg-dark"
     >
-      {/* Hero Section con imagen de fondo */}
-      <div
-        className="relative h-[500px] bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${show.image?.original || 'https://via.placeholder.com/1920x1080/1f1f1f/666666'})`,
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 right-0 p-8">
+      {/* Hero Banner - Igual que películas */}
+      <div className="relative h-[80vh] w-full mt-16">
+        <img
+          src={show.image?.original || 'https://via.placeholder.com/1920x1080/1f1f1f/666666'}
+          alt={show.name}
+          className="w-full h-full object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/40 to-transparent" />
+
+        {/* Botón volver */}
+        <button
+          onClick={() => navigate('/tv-shows')}
+          className="absolute top-20 left-4 md:left-8 bg-black/50 backdrop-blur-sm hover:bg-black/80 text-white p-3 rounded-full transition-colors"
+        >
+          <ArrowLeft className="w-6 h-6" />
+        </button>
+
+        {/* Contenido */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 lg:p-16">
           <div className="max-w-7xl mx-auto">
-            <button
-              onClick={() => navigate('/tv-shows')}
-              className="mb-4 flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              Volver a Series
-            </button>
-            <h1 className="text-5xl font-bold text-white mb-4">{show.name}</h1>
-            <div className="flex flex-wrap items-center gap-4 text-gray-300">
-              {show.premiered && (
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-primary" />
-                  <span>{new Date(show.premiered).getFullYear()}</span>
-                </div>
-              )}
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 text-shadow">
+              {show.name}
+            </h1>
+            <div className="flex flex-wrap items-center gap-4 mb-6">
               {show.rating.average && (
-                <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                  <span className="text-white font-bold">{show.rating.average.toFixed(1)}</span>
+                <div className="flex items-center space-x-1 bg-yellow-500 px-3 py-1 rounded-lg">
+                  <Star className="w-5 h-5 fill-yellow-500 text-black" />
+                  <span className="text-black font-bold text-lg">
+                    {show.rating.average.toFixed(1)}
+                  </span>
                 </div>
               )}
               {show.runtime && (
-                <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-primary" />
+                <div className="flex items-center space-x-2 text-white">
+                  <Clock className="w-5 h-5" />
                   <span>{show.runtime} min</span>
                 </div>
               )}
+              {show.premiered && (
+                <div className="flex items-center space-x-2 text-white">
+                  <Calendar className="w-5 h-5" />
+                  <span>{new Date(show.premiered).getFullYear()}</span>
+                </div>
+              )}
               {show.status && (
-                <div className="flex items-center gap-2">
-                  <Tv className="w-5 h-5 text-primary" />
+                <div className="flex items-center space-x-2 text-white">
+                  <Tv className="w-5 h-5" />
                   <span>{show.status === 'Running' ? '🔴 En Emisión' : 'Finalizada'}</span>
                 </div>
               )}
             </div>
-            <div className="flex flex-wrap gap-2 mt-4">
+            <div className="flex flex-wrap gap-2">
               {show.genres.map(genre => (
                 <span
                   key={genre}
-                  className="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-semibold"
+                  className="bg-primary/20 backdrop-blur-sm text-white px-4 py-2 rounded-lg text-sm font-semibold"
                 >
                   {genre}
                 </span>

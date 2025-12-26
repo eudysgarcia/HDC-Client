@@ -81,14 +81,14 @@ const AnimeDetail: React.FC = () => {
   const youtubeKey = anime.trailer?.youtube_id;
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="min-h-screen bg-dark pt-16">
       {/* Hero Section */}
-      <div className="relative h-[600px] w-full overflow-hidden">
+      <div className="relative h-[75vh] w-full overflow-hidden">
         <div className="absolute inset-0">
           <img
             src={anime.images.webp.large_image_url || anime.images.jpg.large_image_url}
             alt={anime.title}
-            className="w-full h-full object-cover blur-xl opacity-30"
+            className="w-full h-full object-cover object-center blur-xl opacity-30"
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent" />

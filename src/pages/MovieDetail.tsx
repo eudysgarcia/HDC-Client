@@ -8,6 +8,7 @@ import { reviewService } from '../services/reviewService';
 import { MovieDetails as MovieDetailsType } from '../types/movie.types';
 import { Review } from '../types/review.types';
 import { useAuth } from '../context/AuthContext';
+import { useToastContext } from '../context/ToastContext';
 import Loading from '../components/Loading';
 import MovieRow from '../components/MovieRow';
 import ReviewSection from '../components/ReviewSection';
@@ -17,6 +18,7 @@ const MovieDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
+  const { success, error: showError } = useToastContext();
   
   const [movie, setMovie] = useState<MovieDetailsType | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -74,25 +76,15 @@ const MovieDetail: React.FC = () => {
       if (isFavorite) {
         await userService.removeFromFavorites(movie.id);
         setIsFavorite(false);
-        // Mostrar feedback
-        const toast = document.createElement('div');
-        toast.className = 'fixed top-20 right-4 bg-dark-light text-white px-6 py-3 rounded-lg shadow-lg z-50 border border-dark-lighter';
-        toast.textContent = '❌ Quitado de favoritos';
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2000);
+        success('Eliminado de favoritos');
       } else {
         await userService.addToFavorites(movie.id);
         setIsFavorite(true);
-        // Mostrar feedback
-        const toast = document.createElement('div');
-        toast.className = 'fixed top-20 right-4 bg-primary text-white px-6 py-3 rounded-lg shadow-lg z-50';
-        toast.textContent = '❤️ Agregado a favoritos';
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2000);
+        success('Agregado a favoritos');
       }
-    } catch (error) {
-      console.error('Error al actualizar favoritos:', error);
-      alert('Error al actualizar favoritos');
+    } catch (err) {
+      console.error('Error al actualizar favoritos:', err);
+      showError('Error al actualizar favoritos');
     }
   };
 
@@ -103,25 +95,15 @@ const MovieDetail: React.FC = () => {
       if (isInWatchlist) {
         await userService.removeFromWatchlist(movie.id);
         setIsInWatchlist(false);
-        // Mostrar feedback
-        const toast = document.createElement('div');
-        toast.className = 'fixed top-20 right-4 bg-dark-light text-white px-6 py-3 rounded-lg shadow-lg z-50 border border-dark-lighter';
-        toast.textContent = '❌ Quitado de mi lista';
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2000);
+        success('Eliminado de mi lista');
       } else {
         await userService.addToWatchlist(movie.id);
         setIsInWatchlist(true);
-        // Mostrar feedback
-        const toast = document.createElement('div');
-        toast.className = 'fixed top-20 right-4 bg-primary text-white px-6 py-3 rounded-lg shadow-lg z-50';
-        toast.textContent = '📝 Agregado a mi lista';
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2000);
+        success('Agregado a mi lista');
       }
-    } catch (error) {
-      console.error('Error al actualizar watchlist:', error);
-      alert('Error al actualizar mi lista');
+    } catch (err) {
+      console.error('Error al actualizar watchlist:', err);
+      showError('Error al actualizar mi lista');
     }
   };
 
@@ -156,11 +138,11 @@ const MovieDetail: React.FC = () => {
       className="min-h-screen bg-dark"
     >
       {/* Hero Banner */}
-      <div className="relative h-[70vh] w-full">
+      <div className="relative h-[80vh] w-full mt-16">
         <img
           src={movie.backdrop_path || movie.poster_path || ''}
           alt={movie.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/60 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/40 to-transparent" />

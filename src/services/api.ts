@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5002/api';
+// URL de la API - Render en producción, localhost en desarrollo
+const API_URL = import.meta.env.VITE_API_URL || 
+  (import.meta.env.MODE === 'production' 
+    ? 'https://hdc-server-1.onrender.com/api' 
+    : 'http://localhost:5002/api');
 
 const api = axios.create({
   baseURL: API_URL,

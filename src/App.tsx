@@ -1,6 +1,6 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { ToastProvider } from './context/ToastContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -22,10 +22,11 @@ import NotFound from './pages/NotFound';
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="App flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-grow">
+      <ToastProvider>
+        <Router>
+          <div className="App flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/movies" element={<Movies />} />
@@ -47,6 +48,7 @@ function App() {
           <Footer />
         </div>
       </Router>
+      </ToastProvider>
     </AuthProvider>
   );
 }
