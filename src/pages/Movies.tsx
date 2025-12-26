@@ -70,18 +70,32 @@ const Movies: React.FC = () => {
         </div>
 
         {/* Filtros y Controles */}
-        <div className="bg-dark-light rounded-2xl p-6 mb-8 border border-dark-lighter">
-          <div className="flex flex-wrap items-center justify-between gap-6">
-            {/* Ordenamiento */}
+        <div className="bg-dark-light rounded-2xl p-4 md:p-6 mb-8 border border-dark-lighter">
+          {/* Responsive: Grid en móvil, flex en desktop */}
+          <div className="grid grid-cols-1 md:flex md:flex-wrap md:items-center md:justify-between gap-4 md:gap-6">
+            {/* Ordenamiento - Dropdown en móvil, botones en desktop */}
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 shrink-0">
                 <SortAsc className="w-5 h-5 text-gray-400" />
-                <span className="text-gray-400 font-semibold">Ordenar:</span>
+                <span className="text-gray-400 font-semibold text-sm md:text-base">Ordenar:</span>
               </div>
-              <div className="flex gap-2">
+              
+              {/* Mobile: Dropdown */}
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as 'popularity' | 'rating' | 'release')}
+                className="md:hidden flex-grow bg-dark-lighter text-white px-4 py-2 rounded-lg border border-dark-lighter focus:border-primary focus:outline-none"
+              >
+                <option value="popularity">Populares</option>
+                <option value="rating">Mejor Valoradas</option>
+                <option value="release">Más Recientes</option>
+              </select>
+              
+              {/* Desktop: Buttons */}
+              <div className="hidden md:flex gap-2">
                 <button
                   onClick={() => setSortBy('popularity')}
-                  className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                  className={`px-4 py-2 rounded-full font-semibold transition-all text-sm ${
                     sortBy === 'popularity'
                       ? 'bg-primary text-white shadow-lg shadow-primary/50'
                       : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
@@ -91,7 +105,7 @@ const Movies: React.FC = () => {
                 </button>
                 <button
                   onClick={() => setSortBy('rating')}
-                  className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                  className={`px-4 py-2 rounded-full font-semibold transition-all text-sm ${
                     sortBy === 'rating'
                       ? 'bg-primary text-white shadow-lg shadow-primary/50'
                       : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
@@ -101,7 +115,7 @@ const Movies: React.FC = () => {
                 </button>
                 <button
                   onClick={() => setSortBy('release')}
-                  className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                  className={`px-4 py-2 rounded-full font-semibold transition-all text-sm ${
                     sortBy === 'release'
                       ? 'bg-primary text-white shadow-lg shadow-primary/50'
                       : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
@@ -113,40 +127,56 @@ const Movies: React.FC = () => {
             </div>
 
             {/* Vista */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 justify-end">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-3 rounded-lg transition-all ${
+                className={`p-2 md:p-3 rounded-lg transition-all ${
                   viewMode === 'grid'
                     ? 'bg-primary text-white'
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                 }`}
               >
-                <Grid3x3 className="w-5 h-5" />
+                <Grid3x3 className="w-4 h-4 md:w-5 md:h-5" />
               </button>
               <button
                 onClick={() => setViewMode('large')}
-                className={`p-3 rounded-lg transition-all ${
+                className={`p-2 md:p-3 rounded-lg transition-all ${
                   viewMode === 'large'
                     ? 'bg-primary text-white'
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                 }`}
               >
-                <LayoutGrid className="w-5 h-5" />
+                <LayoutGrid className="w-4 h-4 md:w-5 md:h-5" />
               </button>
             </div>
           </div>
 
-          {/* Géneros */}
-          <div className="mt-6 pt-6 border-t border-dark-lighter">
-            <div className="flex items-center gap-2 mb-4">
-              <Filter className="w-5 h-5 text-gray-400" />
-              <span className="text-gray-400 font-semibold">Géneros:</span>
+          {/* Géneros - Dropdown en móvil, botones en desktop */}
+          <div className="mt-4 pt-4 border-t border-dark-lighter">
+            <div className="flex items-center gap-2 mb-3">
+              <Filter className="w-4 h-4 md:w-5 md:h-5 text-gray-400" />
+              <span className="text-gray-400 font-semibold text-sm md:text-base">Géneros:</span>
             </div>
-            <div className="flex flex-wrap gap-3">
+            
+            {/* Mobile: Dropdown */}
+            <select
+              value={selectedGenre || ''}
+              onChange={(e) => setSelectedGenre(e.target.value ? parseInt(e.target.value) : null)}
+              className="md:hidden w-full bg-dark-lighter text-white px-4 py-2 rounded-lg border border-dark-lighter focus:border-primary focus:outline-none"
+            >
+              <option value="">Todos los géneros</option>
+              {genres.map(genre => (
+                <option key={genre.id} value={genre.id}>
+                  {genre.name}
+                </option>
+              ))}
+            </select>
+            
+            {/* Desktop: Buttons */}
+            <div className="hidden md:flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedGenre(null)}
-                className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                className={`px-4 py-2 rounded-full font-semibold transition-all text-sm ${
                   selectedGenre === null
                     ? 'bg-primary text-white shadow-lg shadow-primary/50'
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
@@ -158,7 +188,7 @@ const Movies: React.FC = () => {
                 <button
                   key={genre.id}
                   onClick={() => setSelectedGenre(genre.id)}
-                  className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                  className={`px-4 py-2 rounded-full font-semibold transition-all text-sm ${
                     selectedGenre === genre.id
                       ? 'bg-primary text-white shadow-lg shadow-primary/50'
                       : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'

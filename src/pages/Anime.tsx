@@ -166,20 +166,37 @@ const Anime: React.FC = () => {
         </div>
 
         {/* Filtros */}
-        <div className="bg-dark-light rounded-2xl p-6 mb-8 border border-dark-lighter space-y-6">
+        <div className="bg-dark-light rounded-2xl p-4 md:p-6 mb-8 border border-dark-lighter space-y-4">
           {/* Categorías */}
           <div>
-            <div className="flex items-center gap-4 mb-4">
-              <SortAsc className="w-5 h-5 text-gray-400" />
-              <span className="text-gray-400 font-semibold">Categoría:</span>
+            <div className="flex items-center gap-2 md:gap-4 mb-3">
+              <SortAsc className="w-4 h-4 md:w-5 md:h-5 text-gray-400" />
+              <span className="text-gray-400 font-semibold text-sm md:text-base">Categoría:</span>
             </div>
-            <div className="flex flex-wrap gap-3">
+            
+            {/* Mobile: Dropdown */}
+            <select
+              value={category}
+              onChange={(e) => {
+                setCategory(e.target.value as 'all' | 'popular' | 'trending' | 'top_rated');
+                setPage(1);
+              }}
+              className="md:hidden w-full bg-dark-lighter text-white px-4 py-2 rounded-lg border border-dark-lighter focus:border-primary focus:outline-none"
+            >
+              <option value="all">⭐ Todos</option>
+              <option value="popular">Populares</option>
+              <option value="trending">En Tendencia</option>
+              <option value="top_rated">Mejor Valorados</option>
+            </select>
+            
+            {/* Desktop: Buttons */}
+            <div className="hidden md:flex flex-wrap gap-2">
               <button
                 onClick={() => {
                   setCategory('all');
                   setPage(1);
                 }}
-                className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                className={`px-4 py-2 rounded-full font-semibold transition-all text-sm ${
                   category === 'all'
                     ? 'bg-gradient-to-r from-primary via-pink-500 to-purple-500 text-white shadow-lg shadow-primary/50'
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
@@ -192,7 +209,7 @@ const Anime: React.FC = () => {
                   setCategory('popular');
                   setPage(1);
                 }}
-                className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                className={`px-4 py-2 rounded-full font-semibold transition-all text-sm ${
                   category === 'popular'
                     ? 'bg-gradient-to-r from-primary to-pink-500 text-white shadow-lg shadow-primary/50'
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
@@ -205,7 +222,7 @@ const Anime: React.FC = () => {
                   setCategory('trending');
                   setPage(1);
                 }}
-                className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                className={`px-4 py-2 rounded-full font-semibold transition-all text-sm ${
                   category === 'trending'
                     ? 'bg-gradient-to-r from-primary to-pink-500 text-white shadow-lg shadow-primary/50'
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
@@ -218,7 +235,7 @@ const Anime: React.FC = () => {
                   setCategory('top_rated');
                   setPage(1);
                 }}
-                className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                className={`px-4 py-2 rounded-full font-semibold transition-all text-sm ${
                   category === 'top_rated'
                     ? 'bg-gradient-to-r from-primary to-pink-500 text-white shadow-lg shadow-primary/50'
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
@@ -231,14 +248,30 @@ const Anime: React.FC = () => {
 
           {/* Géneros */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <Filter className="w-5 h-5 text-gray-400" />
-              <span className="text-gray-400 font-semibold">Filtrar por género:</span>
+            <div className="flex items-center gap-2 mb-3">
+              <Filter className="w-4 h-4 md:w-5 md:h-5 text-gray-400" />
+              <span className="text-gray-400 font-semibold text-sm md:text-base">Género:</span>
             </div>
-            <div className="flex flex-wrap gap-3">
+            
+            {/* Mobile: Dropdown */}
+            <select
+              value={selectedGenre || ''}
+              onChange={(e) => setSelectedGenre(e.target.value ? parseInt(e.target.value) : null)}
+              className="md:hidden w-full bg-dark-lighter text-white px-4 py-2 rounded-lg border border-dark-lighter focus:border-primary focus:outline-none"
+            >
+              <option value="">Todos los géneros</option>
+              {ANIME_GENRES.map(genre => (
+                <option key={genre.id} value={genre.id}>
+                  {genre.name}
+                </option>
+              ))}
+            </select>
+            
+            {/* Desktop: Buttons */}
+            <div className="hidden md:flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedGenre(null)}
-                className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                className={`px-4 py-2 rounded-full font-semibold transition-all text-sm ${
                   selectedGenre === null
                     ? 'bg-gradient-to-r from-primary via-pink-500 to-purple-500 text-white shadow-lg shadow-primary/50'
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
@@ -250,7 +283,7 @@ const Anime: React.FC = () => {
                 <button
                   key={genre.id}
                   onClick={() => setSelectedGenre(genre.id)}
-                  className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                  className={`px-4 py-2 rounded-full font-semibold transition-all text-sm ${
                     selectedGenre === genre.id
                       ? 'bg-gradient-to-r from-primary via-pink-500 to-purple-500 text-white shadow-lg shadow-primary/50'
                       : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'

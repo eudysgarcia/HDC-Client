@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Search, Film, User, LogOut, Heart, List, Menu, X } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Search, Film, User, LogOut, Heart, List, Menu, X, Home, Tv, Sparkles, TrendingUp } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  
+  const isActive = (path: string) => location.pathname === path;
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,7 +71,7 @@ const Navbar: React.FC = () => {
               to="/trending"
               className="text-gray-300 hover:text-white font-semibold transition-colors"
             >
-              🔥 Tendencias
+              Tendencias
             </Link>
           </div>
 
@@ -184,9 +187,9 @@ const Navbar: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-dark-light border-t border-dark-lighter"
+            className="md:hidden bg-dark-light border-t border-dark-lighter max-h-[calc(100vh-4rem)] overflow-y-auto"
           >
-            <div className="px-4 py-4 space-y-4">
+            <div className="px-4 py-6 space-y-6">
               {/* Mobile Search */}
               <form onSubmit={handleSearch}>
                 <div className="relative">
@@ -195,96 +198,172 @@ const Navbar: React.FC = () => {
                     placeholder="Buscar películas..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-dark-lighter text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full bg-dark-lighter text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary"
                   />
-                  <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+                  <Search className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
                 </div>
               </form>
 
-              {/* Mobile Links */}
-              <Link
-                to="/"
-                className="block text-gray-300 hover:text-white font-semibold transition-colors"
-                onClick={() => setShowMobileMenu(false)}
-              >
-                Inicio
-              </Link>
-              <Link
-                to="/movies"
-                className="block text-gray-300 hover:text-white font-semibold transition-colors"
-                onClick={() => setShowMobileMenu(false)}
-              >
-                Películas
-              </Link>
-              <Link
-                to="/tv-shows"
-                className="block text-gray-300 hover:text-white font-semibold transition-colors"
-                onClick={() => setShowMobileMenu(false)}
-              >
-                Series
-              </Link>
-              <Link
-                to="/anime"
-                className="block text-gray-300 hover:text-white font-semibold transition-colors"
-                onClick={() => setShowMobileMenu(false)}
-              >
-                Anime
-              </Link>
-              <Link
-                to="/trending"
-                className="block text-gray-300 hover:text-white font-semibold transition-colors"
-                onClick={() => setShowMobileMenu(false)}
-              >
-                🔥 Tendencias
-              </Link>
+              {/* Navigation Section */}
+              <div className="space-y-2">
+                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider px-3 mb-3">
+                  Explorar
+                </h3>
+                
+                <Link
+                  to="/"
+                  className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-all ${
+                    isActive('/') 
+                      ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                      : 'text-gray-300 hover:bg-dark-lighter hover:text-white'
+                  }`}
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <Home className="w-5 h-5" />
+                  <span className="font-semibold">Inicio</span>
+                </Link>
+
+                <Link
+                  to="/movies"
+                  className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-all ${
+                    isActive('/movies') 
+                      ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                      : 'text-gray-300 hover:bg-dark-lighter hover:text-white'
+                  }`}
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <Film className="w-5 h-5" />
+                  <span className="font-semibold">Películas</span>
+                </Link>
+
+                <Link
+                  to="/tv-shows"
+                  className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-all ${
+                    isActive('/tv-shows') 
+                      ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                      : 'text-gray-300 hover:bg-dark-lighter hover:text-white'
+                  }`}
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <Tv className="w-5 h-5" />
+                  <span className="font-semibold">Series</span>
+                </Link>
+
+                <Link
+                  to="/anime"
+                  className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-all ${
+                    isActive('/anime') 
+                      ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                      : 'text-gray-300 hover:bg-dark-lighter hover:text-white'
+                  }`}
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <Sparkles className="w-5 h-5" />
+                  <span className="font-semibold">Anime</span>
+                </Link>
+
+                <Link
+                  to="/trending"
+                  className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-all ${
+                    isActive('/trending') 
+                      ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                      : 'text-gray-300 hover:bg-dark-lighter hover:text-white'
+                  }`}
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <TrendingUp className="w-5 h-5" />
+                  <span className="font-semibold">🔥 Tendencias</span>
+                </Link>
+              </div>
 
               {isAuthenticated ? (
                 <>
-                  <Link
-                    to="/profile"
-                    className="block text-gray-300 hover:text-white transition-colors"
-                    onClick={() => setShowMobileMenu(false)}
-                  >
-                    Perfil
-                  </Link>
-                  <Link
-                    to="/favorites"
-                    className="block text-gray-300 hover:text-white transition-colors"
-                    onClick={() => setShowMobileMenu(false)}
-                  >
-                    Favoritos
-                  </Link>
-                  <Link
-                    to="/watchlist"
-                    className="block text-gray-300 hover:text-white transition-colors"
-                    onClick={() => setShowMobileMenu(false)}
-                  >
-                    Mi Lista
-                  </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-left text-gray-300 hover:text-white transition-colors"
-                  >
-                    Cerrar Sesión
-                  </button>
+                  {/* User Section */}
+                  <div className="pt-4 border-t border-dark-lighter space-y-2">
+                    <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider px-3 mb-3">
+                      Mi Cuenta
+                    </h3>
+                    
+                    <Link
+                      to="/profile"
+                      className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-all ${
+                        isActive('/profile') 
+                          ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                          : 'text-gray-300 hover:bg-dark-lighter hover:text-white'
+                      }`}
+                      onClick={() => setShowMobileMenu(false)}
+                    >
+                      <User className="w-5 h-5" />
+                      <span className="font-semibold">Perfil</span>
+                    </Link>
+
+                    <Link
+                      to="/favorites"
+                      className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-all ${
+                        isActive('/favorites') 
+                          ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                          : 'text-gray-300 hover:bg-dark-lighter hover:text-white'
+                      }`}
+                      onClick={() => setShowMobileMenu(false)}
+                    >
+                      <Heart className="w-5 h-5" />
+                      <span className="font-semibold">Favoritos</span>
+                    </Link>
+
+                    <Link
+                      to="/watchlist"
+                      className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-all ${
+                        isActive('/watchlist') 
+                          ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                          : 'text-gray-300 hover:bg-dark-lighter hover:text-white'
+                      }`}
+                      onClick={() => setShowMobileMenu(false)}
+                    >
+                      <List className="w-5 h-5" />
+                      <span className="font-semibold">Mi Lista</span>
+                    </Link>
+
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-300 hover:bg-red-500/10 hover:text-red-400 transition-all w-full text-left"
+                    >
+                      <LogOut className="w-5 h-5" />
+                      <span className="font-semibold">Cerrar Sesión</span>
+                    </button>
+                  </div>
+
+                  {/* User Info Card */}
+                  <div className="pt-4 border-t border-dark-lighter">
+                    <div className="flex items-center gap-3 px-3 py-3 bg-dark-lighter rounded-lg">
+                      <img
+                        src={user?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=dc2626&color=fff&size=128`}
+                        alt={user?.name}
+                        className="w-10 h-10 rounded-full border-2 border-primary object-cover"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white font-semibold truncate">{user?.name}</p>
+                        <p className="text-gray-400 text-xs truncate">{user?.email}</p>
+                      </div>
+                    </div>
+                  </div>
                 </>
               ) : (
-                <>
+                <div className="pt-4 border-t border-dark-lighter space-y-3">
                   <Link
                     to="/login"
-                    className="block text-gray-300 hover:text-white transition-colors"
+                    className="block w-full text-center px-4 py-3 rounded-lg text-gray-300 hover:bg-dark-lighter hover:text-white transition-all font-semibold"
                     onClick={() => setShowMobileMenu(false)}
                   >
                     Iniciar Sesión
                   </Link>
                   <Link
                     to="/register"
-                    className="block bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-colors text-center"
+                    className="block w-full text-center bg-gradient-to-r from-primary to-red-600 hover:from-primary-dark hover:to-red-700 text-white px-4 py-3 rounded-lg transition-all font-semibold shadow-lg shadow-primary/20"
                     onClick={() => setShowMobileMenu(false)}
                   >
                     Registrarse
                   </Link>
-                </>
+                </div>
               )}
             </div>
           </motion.div>
