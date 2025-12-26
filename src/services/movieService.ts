@@ -1,5 +1,5 @@
 import api from './api';
-import { Movie, MovieDetails, MovieResults } from '../types/movie.types';
+import { MovieDetails, MovieResults } from '../types/movie.types';
 
 export const movieService = {
   // Obtener películas populares

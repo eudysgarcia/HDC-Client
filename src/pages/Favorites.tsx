@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Filter, SortAsc } from 'lucide-react';
+import { Heart, SortAsc } from 'lucide-react';
 import { userService } from '../services/userService';
 import { movieService } from '../services/movieService';
 import { Movie } from '../types/movie.types';

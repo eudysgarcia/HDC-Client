@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Star, Calendar, PlayCircle, ArrowLeft, Clock, TrendingUp, Users } from 'lucide-react';
+import { Star, Calendar, PlayCircle, ArrowLeft, TrendingUp, Users } from 'lucide-react';
 import { jikanService, JikanAnime } from '../services/jikanService';
 import { reviewService } from '../services/reviewService';
 import { Review } from '../types/review.types';
@@ -299,11 +299,12 @@ const AnimeDetail: React.FC = () => {
       </div>
 
       {/* Trailer Modal */}
-      {youtubeKey && (
+      {youtubeKey && anime && (
         <TrailerModal
           isOpen={showTrailer}
           onClose={() => setShowTrailer(false)}
-          youtubeKey={youtubeKey}
+          trailerKey={youtubeKey}
+          title={anime.title_english || anime.title}
         />
       )}
     </div>

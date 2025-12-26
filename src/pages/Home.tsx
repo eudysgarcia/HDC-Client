@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { movieService } from '../services/movieService';
-import { Movie, MovieResults } from '../types/movie.types';
+import { Movie } from '../types/movie.types';
 import HeroSection from '../components/HeroSection';
 import MovieRow from '../components/MovieRow';
 import Loading from '../components/Loading';

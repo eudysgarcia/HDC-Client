@@ -1,5 +1,4 @@
-import React, { useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React from 'react';
 import { Movie } from '../types/movie.types';
 import MovieCard from './MovieCard';
 import { motion } from 'framer-motion';
@@ -10,22 +9,6 @@ interface MovieRowProps {
 }
 
 const MovieRow: React.FC<MovieRowProps> = ({ title, movies }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const scrollAmount = 400;
-      const newScrollLeft =
-        direction === 'left'
-          ? scrollRef.current.scrollLeft - scrollAmount
-          : scrollRef.current.scrollLeft + scrollAmount;
-
-      scrollRef.current.scrollTo({
-        left: newScrollLeft,
-        behavior: 'smooth',
-      });
-    }
-  };
 
   if (!movies || movies.length === 0) {
     return null;
