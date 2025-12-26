@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import MovieDetail from './pages/MovieDetail';
 import Search from './pages/Search';
@@ -24,6 +25,7 @@ function App() {
     <AuthProvider>
       <ToastProvider>
         <Router>
+          <ScrollToTop />
           <div className="App flex flex-col min-h-screen">
             <Navbar />
             <main className="flex-grow">
