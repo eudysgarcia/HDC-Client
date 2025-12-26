@@ -21,7 +21,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
   }, [movie.backdrop_path]);
 
   return (
-    <div className="relative h-[85vh] md:h-[90vh] w-full overflow-hidden mt-16">
+    <div className="relative h-[85vh] md:h-[90vh] w-full overflow-hidden">
       {/* Imagen de fondo */}
       <motion.div
         initial={{ opacity: 0 }}
