@@ -74,9 +74,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
             <span className="text-white text-lg font-semibold bg-dark-light/80 px-4 py-2 rounded-full backdrop-blur-sm">
               {movie.release_date?.split('-')[0] || 'N/A'}
             </span>
-            <span className="text-gray-300 text-base bg-dark-light/60 px-4 py-2 rounded-full backdrop-blur-sm">
+{/*             <span className="text-gray-300 text-base bg-dark-light/60 px-4 py-2 rounded-full backdrop-blur-sm">
               {movie.vote_count.toLocaleString()} votos
-            </span>
+            </span> */}
           </motion.div>
 
           {/* Sinopsis con mejor line-height y espaciado */}

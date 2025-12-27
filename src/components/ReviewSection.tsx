@@ -457,24 +457,32 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
                   <div className="flex items-center gap-4 mb-4">
                 <button
                   onClick={() => handleLike(review._id)}
-                      className="flex items-center gap-2 text-gray-400 hover:text-green-500 transition-colors"
+                      className={`flex items-center gap-2 transition-colors ${
+                        review.userAction === 'like'
+                          ? 'text-green-500'
+                          : 'text-gray-400 hover:text-green-500'
+                      }`}
                 >
-                  <ThumbsUp className="w-4 h-4" />
-                      <span>{review.likesCount || review.likes?.length || 0}</span>
+                      <ThumbsUp className={`w-4 h-4 ${review.userAction === 'like' ? 'fill-green-500' : ''}`} />
+                      <span className="font-semibold">{review.likesCount || 0}</span>
                     </button>
                     <button
                       onClick={() => handleDislike(review._id)}
-                      className="flex items-center gap-2 text-gray-400 hover:text-red-500 transition-colors"
+                      className={`flex items-center gap-2 transition-colors ${
+                        review.userAction === 'dislike'
+                          ? 'text-red-500'
+                          : 'text-gray-400 hover:text-red-500'
+                      }`}
                     >
-                      <ThumbsDown className="w-4 h-4" />
-                      <span>{review.dislikesCount || review.dislikes?.length || 0}</span>
+                      <ThumbsDown className={`w-4 h-4 ${review.userAction === 'dislike' ? 'fill-red-500' : ''}`} />
+                      <span className="font-semibold">{review.dislikesCount || 0}</span>
                     </button>
                     <button
                       onClick={() => handleReply(review._id)}
                       className="flex items-center gap-2 text-gray-400 hover:text-blue-500 transition-colors"
                     >
                       <MessageCircle className="w-4 h-4" />
-                      <span>Responder</span>
+                      <span>Responder {review.repliesCount ? `(${review.repliesCount})` : ''}</span>
                     </button>
                   </div>
 
@@ -516,41 +524,106 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
 
                   {/* Respuestas */}
                   {review.replies && review.replies.length > 0 && (
-                    <div className="ml-8 mt-4 space-y-3 border-l-2 border-dark-lighter pl-4">
+                    <div className="ml-8 mt-4 space-y-3 border-l-2 border-primary/30 pl-4">
                       {review.replies.map((reply) => (
                         <div key={reply._id} className="bg-dark rounded-lg p-4">
-                          <div className="flex items-start justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              <img
-                                src={reply.user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(reply.user.name)}&background=dc2626&color=fff&size=128`}
-                                alt={reply.user.name}
-                                className="w-8 h-8 rounded-full border border-primary object-cover"
-                                onError={(e) => {
-                                  const target = e.target as HTMLImageElement;
-                                  target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(reply.user.name)}&background=dc2626&color=fff&size=128`;
-                                }}
+                          {/* Modo edición de respuesta */}
+                          {editingReviewId === reply._id ? (
+                            <div className="space-y-3">
+                              <textarea
+                                value={editComment}
+                                onChange={(e) => setEditComment(e.target.value)}
+                                rows={3}
+                                className="w-full bg-dark-light text-white px-4 py-3 rounded-lg border border-dark-lighter focus:outline-none focus:ring-2 focus:ring-primary resize-none text-sm"
+                                minLength={10}
+                                maxLength={1000}
                               />
-                              <div>
-                                <p className="text-white font-semibold text-sm">{reply.user.name}</p>
-                                <span className="text-gray-500 text-xs">
-                                  {new Date(reply.createdAt).toLocaleDateString('es-ES', {
-                                    year: 'numeric',
-                                    month: 'short',
-                                    day: 'numeric',
-                                  })}
-                                </span>
+                              <div className="flex gap-2">
+                                <button
+                                  onClick={() => handleUpdateReview(reply._id)}
+                                  className="bg-primary hover:bg-primary-dark text-white px-4 py-1.5 rounded-lg transition-colors font-semibold text-sm"
+                                >
+                                  Guardar
+                                </button>
+                                <button
+                                  onClick={handleCancelEdit}
+                                  className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-1.5 rounded-lg transition-colors font-semibold text-sm"
+                                >
+                                  Cancelar
+                                </button>
                               </div>
                             </div>
-                            {user?._id === reply.user._id && (
-                              <button
-                                onClick={() => handleDelete(reply._id)}
-                                className="text-gray-400 hover:text-red-500 transition-colors"
-                              >
-                                <X className="w-4 h-4" />
-                              </button>
-                            )}
-                          </div>
-                          <p className="text-gray-300 text-sm leading-relaxed">{reply.comment}</p>
+                          ) : (
+                            <>
+                              <div className="flex items-start justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <img
+                                    src={reply.user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(reply.user.name)}&background=dc2626&color=fff&size=128`}
+                                    alt={reply.user.name}
+                                    className="w-8 h-8 rounded-full border border-primary object-cover"
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(reply.user.name)}&background=dc2626&color=fff&size=128`;
+                                    }}
+                                  />
+                                  <div>
+                                    <p className="text-white font-semibold text-sm">{reply.user.name}</p>
+                                    <span className="text-gray-500 text-xs">
+                                      {new Date(reply.createdAt).toLocaleDateString('es-ES', {
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric',
+                                      })}
+                                      {reply.isEdited && <span className="ml-1 italic">(editado)</span>}
+                                    </span>
+                                  </div>
+                                </div>
+                                {user?._id === reply.user._id && (
+                                  <div className="flex gap-1">
+                                    <button
+                                      onClick={() => handleEdit(reply)}
+                                      className="text-gray-400 hover:text-blue-500 transition-colors"
+                                    >
+                                      <Edit2 className="w-4 h-4" />
+                                    </button>
+                                    <button
+                                      onClick={() => handleDelete(reply._id)}
+                                      className="text-gray-400 hover:text-red-500 transition-colors"
+                                    >
+                                      <X className="w-4 h-4" />
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                              <p className="text-gray-300 text-sm leading-relaxed mb-3">{reply.comment}</p>
+                              
+                              {/* Likes/Dislikes de respuesta */}
+                              <div className="flex items-center gap-3">
+                                <button
+                                  onClick={() => handleLike(reply._id)}
+                                  className={`flex items-center gap-1.5 transition-colors text-sm ${
+                                    reply.userAction === 'like'
+                                      ? 'text-green-500'
+                                      : 'text-gray-400 hover:text-green-500'
+                                  }`}
+                                >
+                                  <ThumbsUp className={`w-3.5 h-3.5 ${reply.userAction === 'like' ? 'fill-green-500' : ''}`} />
+                                  <span className="font-semibold">{reply.likesCount || 0}</span>
+                                </button>
+                                <button
+                                  onClick={() => handleDislike(reply._id)}
+                                  className={`flex items-center gap-1.5 transition-colors text-sm ${
+                                    reply.userAction === 'dislike'
+                                      ? 'text-red-500'
+                                      : 'text-gray-400 hover:text-red-500'
+                                  }`}
+                                >
+                                  <ThumbsDown className={`w-3.5 h-3.5 ${reply.userAction === 'dislike' ? 'fill-red-500' : ''}`} />
+                                  <span className="font-semibold">{reply.dislikesCount || 0}</span>
+                                </button>
+                              </div>
+                            </>
+                          )}
                         </div>
                       ))}
                     </div>

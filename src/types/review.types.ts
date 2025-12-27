@@ -13,8 +13,10 @@ export interface Review {
   dislikes: string[];
   likesCount: number;
   dislikesCount: number;
+  userAction: 'like' | 'dislike' | null;  // Estado del usuario actual
   parentReview?: string;
   replies?: Review[];
+  repliesCount?: number;  // Contador de respuestas
   isEdited: boolean;
   isApproved: boolean;
   createdAt: string;
