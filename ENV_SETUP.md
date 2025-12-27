@@ -77,3 +77,4 @@ VITE_API_URL=http://localhost:5002/api
 ✅ Vite requiere el prefijo `VITE_` en las variables de entorno  
 ✅ Reinicia el servidor de desarrollo después de cambiar `.env`  
 
+

@@ -21,6 +21,11 @@ const Register: React.FC = () => {
     setError('');
 
     // Validaciones
+    if (formData.name.trim().length < 3) {
+      setError('El nombre debe tener al menos 3 caracteres');
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden');
       return;
@@ -94,8 +99,9 @@ const Register: React.FC = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
+                  minLength={3}
                   className="w-full bg-dark-lighter text-white placeholder-gray-400 rounded-lg pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Tu nombre"
+                  placeholder="Tu nombre (mínimo 3 caracteres)"
                 />
                 <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               </div>

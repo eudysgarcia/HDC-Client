@@ -40,5 +40,21 @@ export const reviewService = {
   unlike: async (id: string): Promise<void> => {
     await api.delete(`/reviews/${id}/like`);
   },
+
+  // Dar dislike
+  dislike: async (id: string): Promise<void> => {
+    await api.post(`/reviews/${id}/dislike`);
+  },
+
+  // Quitar dislike
+  undislike: async (id: string): Promise<void> => {
+    await api.delete(`/reviews/${id}/dislike`);
+  },
+
+  // Responder a una review
+  reply: async (id: string, comment: string): Promise<Review> => {
+    const response = await api.post<Review>(`/reviews/${id}/reply`, { comment });
+    return response.data;
+  },
 };
 

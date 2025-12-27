@@ -185,3 +185,4 @@ Tu cliente ya está configurado para consumir la API de producción.
 - 📚 Docs: https://hdc-server-1.onrender.com/api-docs
 - 📖 Guía Deploy: DEPLOY_VERCEL.md
 
+

@@ -198,3 +198,4 @@ git push
 
 Tu aplicación CineTalk está lista para el mundo. ¡Disfruta! 🍿🎬
 
+

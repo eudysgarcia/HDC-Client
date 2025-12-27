@@ -309,3 +309,4 @@ Un sistema de notificaciones completamente moderno, limpio y profesional que mej
 
 **¡El sistema de notificaciones de CineTalk ahora luce profesional y moderno!** 🎬🍿
 
+

@@ -99,12 +99,12 @@ const TVShowDetail: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/40 to-transparent" />
 
         {/* Botón volver */}
-        <button
-          onClick={() => navigate('/tv-shows')}
+            <button
+              onClick={() => navigate('/tv-shows')}
           className="absolute top-20 left-4 md:left-8 bg-black/50 backdrop-blur-sm hover:bg-black/80 text-white p-3 rounded-full transition-colors"
-        >
+            >
           <ArrowLeft className="w-6 h-6" />
-        </button>
+            </button>
 
         {/* Contenido */}
         <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 lg:p-16">

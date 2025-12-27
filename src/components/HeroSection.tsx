@@ -107,7 +107,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
                 <span className="text-lg">Ver Detalles</span>
               </motion.button>
             </Link>
-            <Link to={`/movie/${movie.id}`}>
+{/*             <Link to={`/movie/${movie.id}`}>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -116,7 +116,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
                 <Info className="w-6 h-6" />
                 <span className="text-lg">Más Información</span>
               </motion.button>
-            </Link>
+            </Link> */}
           </motion.div>
         </div>
       </motion.div>

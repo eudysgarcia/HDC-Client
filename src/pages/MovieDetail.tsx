@@ -9,6 +9,7 @@ import { MovieDetails as MovieDetailsType } from '../types/movie.types';
 import { Review } from '../types/review.types';
 import { useAuth } from '../context/AuthContext';
 import { useToastContext } from '../context/ToastContext';
+import { useLoginModal } from '../context/LoginModalContext';
 import Loading from '../components/Loading';
 import MovieRow from '../components/MovieRow';
 import ReviewSection from '../components/ReviewSection';
@@ -19,6 +20,7 @@ const MovieDetail: React.FC = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const { success, error: showError } = useToastContext();
+  const { openLoginModal } = useLoginModal();
   
   const [movie, setMovie] = useState<MovieDetailsType | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -70,7 +72,12 @@ const MovieDetail: React.FC = () => {
   }, [id, isAuthenticated]);
 
   const handleToggleFavorite = async () => {
-    if (!movie || !isAuthenticated) return;
+    if (!movie) return;
+
+    if (!isAuthenticated) {
+      openLoginModal();
+      return;
+    }
 
     try {
       if (isFavorite) {
@@ -89,7 +96,12 @@ const MovieDetail: React.FC = () => {
   };
 
   const handleToggleWatchlist = async () => {
-    if (!movie || !isAuthenticated) return;
+    if (!movie) return;
+
+    if (!isAuthenticated) {
+      openLoginModal();
+      return;
+    }
 
     try {
       if (isInWatchlist) {
@@ -190,28 +202,24 @@ const MovieDetail: React.FC = () => {
                   <span>Ver Trailer</span>
                 </button>
               )}
-              {isAuthenticated && (
-                <>
-                  <button
-                    onClick={handleToggleFavorite}
-                    className={`${
-                      isFavorite ? 'bg-primary' : 'bg-gray-600/80'
-                    } hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-lg flex items-center space-x-2 transition-colors`}
-                  >
-                    <Heart className={`w-5 h-5 ${isFavorite ? 'fill-white' : ''}`} />
-                    <span>{isFavorite ? 'En Favoritos' : 'Agregar a Favoritos'}</span>
-                  </button>
-                  <button
-                    onClick={handleToggleWatchlist}
-                    className={`${
-                      isInWatchlist ? 'bg-primary' : 'bg-gray-600/80'
-                    } hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-lg flex items-center space-x-2 transition-colors`}
-                  >
-                    <List className="w-5 h-5" />
-                    <span>{isInWatchlist ? 'En Mi Lista' : 'Agregar a Mi Lista'}</span>
-                  </button>
-                </>
-              )}
+              <button
+                onClick={handleToggleFavorite}
+                className={`${
+                  isFavorite ? 'bg-primary' : 'bg-gray-600/80'
+                } hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-lg flex items-center space-x-2 transition-colors`}
+              >
+                <Heart className={`w-5 h-5 ${isFavorite ? 'fill-white' : ''}`} />
+                <span>{isFavorite ? 'En Favoritos' : 'Agregar a Favoritos'}</span>
+              </button>
+              <button
+                onClick={handleToggleWatchlist}
+                className={`${
+                  isInWatchlist ? 'bg-primary' : 'bg-gray-600/80'
+                } hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-lg flex items-center space-x-2 transition-colors`}
+              >
+                <List className="w-5 h-5" />
+                <span>{isInWatchlist ? 'En Mi Lista' : 'Agregar a Mi Lista'}</span>
+              </button>
             </div>
           </div>
         </div>

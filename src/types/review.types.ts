@@ -10,6 +10,12 @@ export interface Review {
   rating: number;
   comment: string;
   likes: string[];
+  dislikes: string[];
+  likesCount: number;
+  dislikesCount: number;
+  parentReview?: string;
+  replies?: Review[];
+  isEdited: boolean;
   isApproved: boolean;
   createdAt: string;
   updatedAt: string;
