@@ -17,6 +17,228 @@ interface ReviewSectionProps {
   onReviewAdded: () => void;
 }
 
+// Componente recursivo para renderizar respuestas anidadas
+interface RenderRepliesProps {
+  replies: Review[];
+  user: any;
+  editingReviewId: string | null;
+  editComment: string;
+  setEditComment: (value: string) => void;
+  handleEdit: (review: Review) => void;
+  handleDelete: (reviewId: string) => void;
+  handleUpdateReview: (reviewId: string) => void;
+  handleCancelEdit: () => void;
+  handleLike: (reviewId: string) => void;
+  handleDislike: (reviewId: string) => void;
+  handleReply: (reviewId: string) => void;
+  replyingToId: string | null;
+  replyComment: string;
+  setReplyComment: (value: string) => void;
+  handleSubmitReply: (parentReviewId: string) => void;
+  handleCancelReply: () => void;
+  level: number;
+}
+
+const RenderReplies: React.FC<RenderRepliesProps> = ({
+  replies,
+  user,
+  editingReviewId,
+  editComment,
+  setEditComment,
+  handleEdit,
+  handleDelete,
+  handleUpdateReview,
+  handleCancelEdit,
+  handleLike,
+  handleDislike,
+  handleReply,
+  replyingToId,
+  replyComment,
+  setReplyComment,
+  handleSubmitReply,
+  handleCancelReply,
+  level,
+}) => {
+  // Limitar el nivel de anidamiento visual (máximo 5 niveles)
+  const maxLevel = 5;
+  const currentLevel = Math.min(level, maxLevel);
+  const marginLeft = currentLevel <= maxLevel ? `${currentLevel * 2}rem` : `${maxLevel * 2}rem`;
+
+  return (
+    <div style={{ marginLeft }} className="mt-4 space-y-3 border-l-2 border-primary/30 pl-4">
+      {replies.map((reply) => (
+        <div key={reply._id} className="bg-dark rounded-lg p-4">
+          {/* Modo edición de respuesta */}
+          {editingReviewId === reply._id ? (
+            <div className="space-y-3">
+              <textarea
+                value={editComment}
+                onChange={(e) => setEditComment(e.target.value)}
+                rows={3}
+                className="w-full bg-dark-light text-white px-4 py-3 rounded-lg border border-dark-lighter focus:outline-none focus:ring-2 focus:ring-primary resize-none text-sm"
+                minLength={10}
+                maxLength={1000}
+              />
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleUpdateReview(reply._id)}
+                  className="bg-primary hover:bg-primary-dark text-white px-4 py-1.5 rounded-lg transition-colors font-semibold text-sm"
+                >
+                  Guardar
+                </button>
+                <button
+                  onClick={handleCancelEdit}
+                  className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-1.5 rounded-lg transition-colors font-semibold text-sm"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="flex items-start justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <img
+                    src={reply.user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(reply.user.name)}&background=dc2626&color=fff&size=128`}
+                    alt={reply.user.name}
+                    className="w-8 h-8 rounded-full border border-primary object-cover"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(reply.user.name)}&background=dc2626&color=fff&size=128`;
+                    }}
+                  />
+                  <div>
+                    <p className="text-white font-semibold text-sm">{reply.user.name}</p>
+                    <span className="text-gray-500 text-xs">
+                      {new Date(reply.createdAt).toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                      {reply.isEdited && <span className="ml-1 italic">(editado)</span>}
+                    </span>
+                  </div>
+                </div>
+                {user?._id === reply.user._id && (
+                  <div className="flex gap-1">
+                    <button
+                      onClick={() => handleEdit(reply)}
+                      className="text-gray-400 hover:text-blue-500 transition-colors"
+                    >
+                      <Edit2 className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(reply._id)}
+                      className="text-gray-400 hover:text-red-500 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+              </div>
+              <p className="text-gray-300 text-sm leading-relaxed mb-3">{reply.comment}</p>
+              
+              {/* Likes/Dislikes y Responder */}
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => handleLike(reply._id)}
+                  className={`flex items-center gap-1.5 transition-colors text-sm ${
+                    reply.userAction === 'like'
+                      ? 'text-green-500'
+                      : 'text-gray-400 hover:text-green-500'
+                  }`}
+                >
+                  <ThumbsUp className={`w-3.5 h-3.5 ${reply.userAction === 'like' ? 'fill-green-500' : ''}`} />
+                  <span className="font-semibold">{reply.likesCount || 0}</span>
+                </button>
+                <button
+                  onClick={() => handleDislike(reply._id)}
+                  className={`flex items-center gap-1.5 transition-colors text-sm ${
+                    reply.userAction === 'dislike'
+                      ? 'text-red-500'
+                      : 'text-gray-400 hover:text-red-500'
+                  }`}
+                >
+                  <ThumbsDown className={`w-3.5 h-3.5 ${reply.userAction === 'dislike' ? 'fill-red-500' : ''}`} />
+                  <span className="font-semibold">{reply.dislikesCount || 0}</span>
+                </button>
+                {/* Botón de responder en respuestas también */}
+                <button
+                  onClick={() => handleReply(reply._id)}
+                  className="flex items-center gap-1.5 text-gray-400 hover:text-blue-500 transition-colors text-sm"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>Responder {reply.repliesCount ? `(${reply.repliesCount})` : ''}</span>
+                </button>
+              </div>
+
+              {/* Formulario de respuesta */}
+              <AnimatePresence>
+                {replyingToId === reply._id && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="bg-dark-light rounded-lg p-3 mt-3"
+                  >
+                    <textarea
+                      value={replyComment}
+                      onChange={(e) => setReplyComment(e.target.value)}
+                      placeholder="Escribe tu respuesta... (mínimo 10 caracteres)"
+                      rows={3}
+                      className="w-full bg-dark text-white px-3 py-2 rounded-lg border border-dark-lighter focus:outline-none focus:ring-2 focus:ring-primary resize-none mb-2 text-sm"
+                      minLength={10}
+                      maxLength={1000}
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleSubmitReply(reply._id)}
+                        className="bg-primary hover:bg-primary-dark text-white px-3 py-1.5 rounded-lg transition-colors font-semibold text-sm"
+                      >
+                        Publicar
+                      </button>
+                      <button
+                        onClick={handleCancelReply}
+                        className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 rounded-lg transition-colors font-semibold text-sm"
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Respuestas anidadas (recursivo) */}
+              {reply.replies && reply.replies.length > 0 && (
+                <RenderReplies
+                  replies={reply.replies}
+                  user={user}
+                  editingReviewId={editingReviewId}
+                  editComment={editComment}
+                  setEditComment={setEditComment}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                  handleUpdateReview={handleUpdateReview}
+                  handleCancelEdit={handleCancelEdit}
+                  handleLike={handleLike}
+                  handleDislike={handleDislike}
+                  handleReply={handleReply}
+                  replyingToId={replyingToId}
+                  replyComment={replyComment}
+                  setReplyComment={setReplyComment}
+                  handleSubmitReply={handleSubmitReply}
+                  handleCancelReply={handleCancelReply}
+                  level={level + 1}
+                />
+              )}
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, reviews, onReviewAdded }) => {
   const { user, isAuthenticated } = useAuth();
   const { toast, hideToast, success, error, warning } = useToast();
@@ -522,111 +744,28 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
                     )}
                   </AnimatePresence>
 
-                  {/* Respuestas */}
+                  {/* Respuestas (Componente recursivo para anidamiento profundo) */}
                   {review.replies && review.replies.length > 0 && (
-                    <div className="ml-8 mt-4 space-y-3 border-l-2 border-primary/30 pl-4">
-                      {review.replies.map((reply) => (
-                        <div key={reply._id} className="bg-dark rounded-lg p-4">
-                          {/* Modo edición de respuesta */}
-                          {editingReviewId === reply._id ? (
-                            <div className="space-y-3">
-                              <textarea
-                                value={editComment}
-                                onChange={(e) => setEditComment(e.target.value)}
-                                rows={3}
-                                className="w-full bg-dark-light text-white px-4 py-3 rounded-lg border border-dark-lighter focus:outline-none focus:ring-2 focus:ring-primary resize-none text-sm"
-                                minLength={10}
-                                maxLength={1000}
-                              />
-                              <div className="flex gap-2">
-                                <button
-                                  onClick={() => handleUpdateReview(reply._id)}
-                                  className="bg-primary hover:bg-primary-dark text-white px-4 py-1.5 rounded-lg transition-colors font-semibold text-sm"
-                                >
-                                  Guardar
-                                </button>
-                                <button
-                                  onClick={handleCancelEdit}
-                                  className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-1.5 rounded-lg transition-colors font-semibold text-sm"
-                                >
-                                  Cancelar
-                                </button>
-                              </div>
-                            </div>
-                          ) : (
-                            <>
-                              <div className="flex items-start justify-between mb-2">
-                                <div className="flex items-center gap-2">
-                                  <img
-                                    src={reply.user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(reply.user.name)}&background=dc2626&color=fff&size=128`}
-                                    alt={reply.user.name}
-                                    className="w-8 h-8 rounded-full border border-primary object-cover"
-                                    onError={(e) => {
-                                      const target = e.target as HTMLImageElement;
-                                      target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(reply.user.name)}&background=dc2626&color=fff&size=128`;
-                                    }}
-                                  />
-                                  <div>
-                                    <p className="text-white font-semibold text-sm">{reply.user.name}</p>
-                                    <span className="text-gray-500 text-xs">
-                                      {new Date(reply.createdAt).toLocaleDateString('es-ES', {
-                                        year: 'numeric',
-                                        month: 'short',
-                                        day: 'numeric',
-                                      })}
-                                      {reply.isEdited && <span className="ml-1 italic">(editado)</span>}
-                                    </span>
-                                  </div>
-                                </div>
-                                {user?._id === reply.user._id && (
-                                  <div className="flex gap-1">
-                                    <button
-                                      onClick={() => handleEdit(reply)}
-                                      className="text-gray-400 hover:text-blue-500 transition-colors"
-                                    >
-                                      <Edit2 className="w-4 h-4" />
-                                    </button>
-                                    <button
-                                      onClick={() => handleDelete(reply._id)}
-                                      className="text-gray-400 hover:text-red-500 transition-colors"
-                                    >
-                                      <X className="w-4 h-4" />
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-                              <p className="text-gray-300 text-sm leading-relaxed mb-3">{reply.comment}</p>
-                              
-                              {/* Likes/Dislikes de respuesta */}
-                              <div className="flex items-center gap-3">
-                                <button
-                                  onClick={() => handleLike(reply._id)}
-                                  className={`flex items-center gap-1.5 transition-colors text-sm ${
-                                    reply.userAction === 'like'
-                                      ? 'text-green-500'
-                                      : 'text-gray-400 hover:text-green-500'
-                                  }`}
-                                >
-                                  <ThumbsUp className={`w-3.5 h-3.5 ${reply.userAction === 'like' ? 'fill-green-500' : ''}`} />
-                                  <span className="font-semibold">{reply.likesCount || 0}</span>
-                                </button>
-                                <button
-                                  onClick={() => handleDislike(reply._id)}
-                                  className={`flex items-center gap-1.5 transition-colors text-sm ${
-                                    reply.userAction === 'dislike'
-                                      ? 'text-red-500'
-                                      : 'text-gray-400 hover:text-red-500'
-                                  }`}
-                                >
-                                  <ThumbsDown className={`w-3.5 h-3.5 ${reply.userAction === 'dislike' ? 'fill-red-500' : ''}`} />
-                                  <span className="font-semibold">{reply.dislikesCount || 0}</span>
-                                </button>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                    <RenderReplies
+                      replies={review.replies}
+                      user={user}
+                      editingReviewId={editingReviewId}
+                      editComment={editComment}
+                      setEditComment={setEditComment}
+                      handleEdit={handleEdit}
+                      handleDelete={handleDelete}
+                      handleUpdateReview={handleUpdateReview}
+                      handleCancelEdit={handleCancelEdit}
+                      handleLike={handleLike}
+                      handleDislike={handleDislike}
+                      handleReply={handleReply}
+                      replyingToId={replyingToId}
+                      replyComment={replyComment}
+                      setReplyComment={setReplyComment}
+                      handleSubmitReply={handleSubmitReply}
+                      handleCancelReply={handleCancelReply}
+                      level={1}
+                    />
                   )}
                 </>
               )}
