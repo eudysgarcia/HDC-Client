@@ -9,6 +9,7 @@ import { useConfirm } from '../hooks/useConfirm';
 import { useLoginModal } from '../context/LoginModalContext';
 import Toast from './Toast';
 import ConfirmDialog from './ConfirmDialog';
+import { useTranslation } from 'react-i18next';
 
 interface ReviewSectionProps {
   movieId: number;
@@ -84,13 +85,13 @@ const RenderReplies: React.FC<RenderRepliesProps> = ({
                   onClick={() => handleUpdateReview(reply._id)}
                   className="bg-primary hover:bg-primary-dark text-white px-4 py-1.5 rounded-lg transition-colors font-semibold text-sm"
                 >
-                  Guardar
+                  {t('reviews.save')}
                 </button>
                 <button
                   onClick={handleCancelEdit}
                   className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-1.5 rounded-lg transition-colors font-semibold text-sm"
                 >
-                  Cancelar
+                  {t('reviews.cancel')}
                 </button>
               </div>
             </div>
@@ -168,7 +169,7 @@ const RenderReplies: React.FC<RenderRepliesProps> = ({
                   className="flex items-center gap-1.5 text-gray-400 hover:text-blue-500 transition-colors text-sm"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
-                  <span>Responder {reply.repliesCount ? `(${reply.repliesCount})` : ''}</span>
+                  <span>{t('reviews.reply')} {reply.repliesCount ? `(${reply.repliesCount})` : ''}</span>
                 </button>
               </div>
 
@@ -184,7 +185,7 @@ const RenderReplies: React.FC<RenderRepliesProps> = ({
                     <textarea
                       value={replyComment}
                       onChange={(e) => setReplyComment(e.target.value)}
-                      placeholder="Escribe tu respuesta... (mínimo 10 caracteres)"
+                      placeholder={t('reviews.writeReplyPlaceholder')}
                       rows={3}
                       className="w-full bg-dark text-white px-3 py-2 rounded-lg border border-dark-lighter focus:outline-none focus:ring-2 focus:ring-primary resize-none mb-2 text-sm"
                       minLength={10}
@@ -195,13 +196,13 @@ const RenderReplies: React.FC<RenderRepliesProps> = ({
                         onClick={() => handleSubmitReply(reply._id)}
                         className="bg-primary hover:bg-primary-dark text-white px-3 py-1.5 rounded-lg transition-colors font-semibold text-sm"
                       >
-                        Publicar
+                        {t('reviews.publish')}
                       </button>
                       <button
                         onClick={handleCancelReply}
                         className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 rounded-lg transition-colors font-semibold text-sm"
                       >
-                        Cancelar
+                        {t('reviews.cancel')}
                       </button>
                     </div>
                   </motion.div>
@@ -240,6 +241,7 @@ const RenderReplies: React.FC<RenderRepliesProps> = ({
 };
 
 const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, reviews, onReviewAdded }) => {
+  const { t } = useTranslation();
   const { user, isAuthenticated } = useAuth();
   const { toast, hideToast, success, error, warning } = useToast();
   const { confirmState, confirm, cancel } = useConfirm();
@@ -430,7 +432,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
       {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="text-2xl font-bold text-white">
-          Reseñas ({reviews.length})
+          {t('reviews.reviews')} ({reviews.length})
         </h3>
         {!showForm && (
           <button
@@ -443,7 +445,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
             }}
             className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-lg transition-colors font-semibold"
           >
-            Escribir Reseña
+            {t('reviews.writeReview')}
           </button>
         )}
       </div>
@@ -461,7 +463,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
               {/* Selector de calificación */}
               <div>
                 <label className="block text-white font-semibold mb-2">
-                  Tu Calificación
+                  {t('reviews.yourRating')}
                 </label>
                 <div className="flex items-center gap-2">
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (
@@ -490,7 +492,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-white font-semibold">
-                    Tu Reseña
+                    {t('reviews.yourReview')}
                   </label>
                   <span className={`text-sm ${
                     comment.trim().length < 10 
@@ -499,13 +501,13 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
                       ? 'text-red-400' 
                       : 'text-gray-400'
                   }`}>
-                    {comment.trim().length} / 10-1000 caracteres
+                    {comment.trim().length} / {t('reviews.charLimit')}
                   </span>
                 </div>
                 <textarea
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  placeholder="Comparte tu opinión sobre esta película... (mínimo 10 caracteres)"
+                  placeholder={t('reviews.writePlaceholder')}
                   rows={4}
                   className={`w-full bg-dark text-white px-4 py-3 rounded-lg border ${
                     comment.trim().length > 0 && comment.trim().length < 10
@@ -518,7 +520,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
                 />
                 {comment.trim().length > 0 && comment.trim().length < 10 && (
                   <p className="text-red-400 text-sm mt-1">
-                    ⚠️ Faltan {10 - comment.trim().length} caracteres
+                    ⚠️ {t('reviews.charsNeeded', { count: 10 - comment.trim().length })}
                   </p>
                 )}
               </div>
@@ -531,7 +533,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
                   className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-lg transition-colors font-semibold flex items-center gap-2 disabled:opacity-50"
                 >
                   <Send className="w-4 h-4" />
-                  {submitting ? 'Publicando...' : 'Publicar'}
+                  {submitting ? t('reviews.publishing') : t('reviews.publish')}
                 </button>
                 <button
                   type="button"
@@ -542,7 +544,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
                   }}
                   className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors font-semibold"
                 >
-                  Cancelar
+                  {t('reviews.cancel')}
                 </button>
               </div>
             </form>
@@ -566,7 +568,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
                 <div className="space-y-4">
                   <div>
                     <label className="block text-white font-semibold mb-2">
-                      Calificación
+                      {t('reviews.rating')}
                     </label>
                     <div className="flex items-center gap-2">
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (
@@ -590,7 +592,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
                   </div>
                   <div>
                     <label className="block text-white font-semibold mb-2">
-                      Comentario
+                      {t('reviews.comment')}
                     </label>
                     <textarea
                       value={editComment}
@@ -606,13 +608,13 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
                       onClick={() => handleUpdateReview(review._id)}
                       className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-lg transition-colors font-semibold"
                     >
-                      Guardar
+                      {t('reviews.save')}
                     </button>
                     <button
                       onClick={handleCancelEdit}
                       className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors font-semibold"
                     >
-                      Cancelar
+                      {t('reviews.cancel')}
                     </button>
                   </div>
                 </div>
@@ -704,7 +706,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
                       className="flex items-center gap-2 text-gray-400 hover:text-blue-500 transition-colors"
                     >
                       <MessageCircle className="w-4 h-4" />
-                      <span>Responder {review.repliesCount ? `(${review.repliesCount})` : ''}</span>
+                      <span>{t('reviews.reply')} {review.repliesCount ? `(${review.repliesCount})` : ''}</span>
                     </button>
                   </div>
 
@@ -720,7 +722,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
                         <textarea
                           value={replyComment}
                           onChange={(e) => setReplyComment(e.target.value)}
-                          placeholder="Escribe tu respuesta... (mínimo 10 caracteres)"
+                          placeholder={t('reviews.writeReplyPlaceholder')}
                           rows={3}
                           className="w-full bg-dark-light text-white px-4 py-3 rounded-lg border border-dark-lighter focus:outline-none focus:ring-2 focus:ring-primary resize-none mb-3"
                           minLength={10}
@@ -731,13 +733,13 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
                             onClick={() => handleSubmitReply(review._id)}
                             className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-colors font-semibold text-sm"
                           >
-                            Publicar Respuesta
+                            {t('reviews.publishReply')}
                           </button>
                           <button
                             onClick={handleCancelReply}
                             className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors font-semibold text-sm"
                           >
-                            Cancelar
+                            {t('reviews.cancel')}
                 </button>
               </div>
                       </motion.div>
@@ -775,7 +777,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
           <div className="bg-dark-light rounded-lg p-12 text-center border border-dark-lighter">
             <Star className="w-16 h-16 text-gray-600 mx-auto mb-4" />
             <p className="text-gray-400 text-lg">
-              No hay reseñas todavía. ¡Sé el primero en escribir una!
+              {t('reviews.noReviewsYet')}
             </p>
           </div>
         )}

@@ -16,8 +16,10 @@ import { tvmazeService } from '../services/tvmazeService';
 import { TVShow, Episode, Cast, Season } from '../types/tvmaze.types';
 import ReviewSection from '../components/ReviewSection';
 import Loading from '../components/Loading';
+import { useTranslation } from 'react-i18next';
 
 const TVShowDetail: React.FC = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [show, setShow] = useState<TVShow | null>(null);
@@ -58,7 +60,7 @@ const TVShowDetail: React.FC = () => {
   }, [id]);
 
   const stripHtml = (html: string | null) => {
-    if (!html) return 'Sin descripción disponible';
+    if (!html) return t('tvshows.noDescription');
     return html.replace(/<[^>]*>/g, '');
   };
 
@@ -70,12 +72,12 @@ const TVShowDetail: React.FC = () => {
     return (
       <div className="min-h-screen bg-dark flex items-center justify-center pt-20">
         <div className="text-center">
-          <h2 className="text-white text-2xl font-bold mb-4">Serie no encontrada</h2>
+          <h2 className="text-white text-2xl font-bold mb-4">{t('tvshows.showNotFound')}</h2>
           <button
             onClick={() => navigate('/tv-shows')}
             className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-lg transition-colors"
           >
-            Volver a Series
+            {t('tvshows.backToShows')}
           </button>
         </div>
       </div>
@@ -136,7 +138,7 @@ const TVShowDetail: React.FC = () => {
               {show.status && (
                 <div className="flex items-center space-x-2 text-white">
                   <Tv className="w-5 h-5" />
-                  <span>{show.status === 'Running' ? '🔴 En Emisión' : 'Finalizada'}</span>
+                  <span>{show.status === 'Running' ? `🔴 ${t('tvshows.onAir')}` : t('tvshows.ended')}</span>
                 </div>
               )}
             </div>
@@ -167,7 +169,7 @@ const TVShowDetail: React.FC = () => {
             }`}
           >
             <Info className="w-5 h-5 inline mr-2" />
-            Información
+            {t('tvshows.information')}
           </button>
           <button
             onClick={() => setActiveTab('episodes')}
@@ -178,7 +180,7 @@ const TVShowDetail: React.FC = () => {
             }`}
           >
             <Film className="w-5 h-5 inline mr-2" />
-            Episodios ({episodes.length})
+            {t('tvshows.episodes')} ({episodes.length})
           </button>
           <button
             onClick={() => setActiveTab('cast')}
@@ -189,7 +191,7 @@ const TVShowDetail: React.FC = () => {
             }`}
           >
             <Users className="w-5 h-5 inline mr-2" />
-            Elenco
+            {t('tvshows.cast')}
           </button>
         </div>
 
@@ -203,37 +205,37 @@ const TVShowDetail: React.FC = () => {
               className="space-y-6"
             >
               <div className="bg-dark-light rounded-2xl p-6 border border-dark-lighter">
-                <h2 className="text-2xl font-bold text-white mb-4">Sinopsis</h2>
+                <h2 className="text-2xl font-bold text-white mb-4">{t('tvshows.synopsis')}</h2>
                 <p className="text-gray-300 leading-relaxed">{stripHtml(show.summary)}</p>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-dark-light rounded-2xl p-6 border border-dark-lighter">
-                  <h3 className="text-xl font-bold text-white mb-4">Detalles</h3>
+                  <h3 className="text-xl font-bold text-white mb-4">{t('tvshows.details')}</h3>
                   <div className="space-y-3 text-gray-300">
                     {show.network && (
                       <div>
-                        <span className="text-gray-400">Cadena:</span>{' '}
+                        <span className="text-gray-400">{t('tvshows.network')}:</span>{' '}
                         <span className="text-white">{show.network.name}</span>
                       </div>
                     )}
                     {show.webChannel && (
                       <div>
-                        <span className="text-gray-400">Plataforma:</span>{' '}
+                        <span className="text-gray-400">{t('tvshows.platform')}:</span>{' '}
                         <span className="text-white">{show.webChannel.name}</span>
                       </div>
                     )}
                     <div>
-                      <span className="text-gray-400">Idioma:</span>{' '}
+                      <span className="text-gray-400">{t('tvshows.language')}:</span>{' '}
                       <span className="text-white">{show.language}</span>
                     </div>
                     <div>
-                      <span className="text-gray-400">Tipo:</span>{' '}
+                      <span className="text-gray-400">{t('tvshows.type')}:</span>{' '}
                       <span className="text-white">{show.type}</span>
                     </div>
                     {show.schedule.days.length > 0 && (
                       <div>
-                        <span className="text-gray-400">Días:</span>{' '}
+                        <span className="text-gray-400">{t('tvshows.days')}:</span>{' '}
                         <span className="text-white">{show.schedule.days.join(', ')}</span>
                       </div>
                     )}
@@ -241,15 +243,15 @@ const TVShowDetail: React.FC = () => {
                 </div>
 
                 <div className="bg-dark-light rounded-2xl p-6 border border-dark-lighter">
-                  <h3 className="text-xl font-bold text-white mb-4">Temporadas</h3>
+                  <h3 className="text-xl font-bold text-white mb-4">{t('tvshows.seasons')}</h3>
                   <div className="space-y-2">
                     {seasons.map(season => (
                       <div
                         key={season.id}
                         className="flex justify-between items-center text-gray-300"
                       >
-                        <span>Temporada {season.number}</span>
-                        <span className="text-gray-400">{season.episodeOrder} episodios</span>
+                        <span>{t('tvshows.season')} {season.number}</span>
+                        <span className="text-gray-400">{season.episodeOrder} {t('tvshows.episodesCount')}</span>
                       </div>
                     ))}
                   </div>
@@ -265,7 +267,7 @@ const TVShowDetail: React.FC = () => {
                     className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-lg font-semibold transition-colors"
                   >
                     <Globe className="w-5 h-5" />
-                    Sitio Oficial
+                    {t('tvshows.officialSite')}
                   </a>
                 </div>
               )}

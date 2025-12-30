@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { tvmazeService } from '../services/tvmazeService';
 import { TVShow } from '../types/tvmaze.types';
 import Loading from '../components/Loading';
+import { useTranslation } from 'react-i18next';
 
 // Géneros comunes de series de TV
 const TV_GENRES = [
@@ -25,6 +26,7 @@ const TV_GENRES = [
 ];
 
 const TVShows: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [tvShows, setTVShows] = useState<TVShow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -97,11 +99,11 @@ const TVShows: React.FC = () => {
           <div className="flex items-center gap-4 mb-4">
             <Tv className="w-12 h-12 text-primary" />
             <h1 className="text-5xl font-bold text-white bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
-              Series de TV
+              {t('tvshows.title')}
             </h1>
           </div>
           <p className="text-gray-400 text-lg">
-            Las mejores series y programas de televisión
+            {t('tvshows.subtitle')}
           </p>
         </div>
 
@@ -111,7 +113,7 @@ const TVShows: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 md:gap-4 mb-3">
               <SortAsc className="w-4 h-4 md:w-5 md:h-5 text-gray-400" />
-              <span className="text-gray-400 font-semibold text-sm md:text-base">Categoría:</span>
+              <span className="text-gray-400 font-semibold text-sm md:text-base">{t('tvshows.category')}</span>
             </div>
             
             {/* Mobile: Dropdown */}
@@ -123,10 +125,10 @@ const TVShows: React.FC = () => {
               }}
               className="md:hidden w-full bg-dark-lighter text-white px-4 py-2 rounded-lg border border-dark-lighter focus:border-primary focus:outline-none"
             >
-              <option value="all">⭐ Todos</option>
-              <option value="popular">📺 Populares</option>
-              <option value="top_rated">🏆 Mejor Valoradas</option>
-              <option value="active">🔴 En Emisión</option>
+              <option value="all">{t('tvshows.all')}</option>
+              <option value="popular">{t('tvshows.popular')}</option>
+              <option value="top_rated">{t('tvshows.topRated')}</option>
+              <option value="active">{t('tvshows.onAir')}</option>
             </select>
             
             {/* Desktop: Buttons */}
@@ -142,7 +144,7 @@ const TVShows: React.FC = () => {
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                 }`}
               >
-                ⭐ Todos
+                {t('tvshows.all')}
               </button>
               <button
                 onClick={() => {
@@ -155,7 +157,7 @@ const TVShows: React.FC = () => {
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                 }`}
               >
-                📺 Populares
+                {t('tvshows.popular')}
               </button>
               <button
                 onClick={() => {
@@ -168,7 +170,7 @@ const TVShows: React.FC = () => {
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                 }`}
               >
-                🏆 Mejor Valoradas
+                {t('tvshows.topRated')}
               </button>
               <button
                 onClick={() => {
@@ -181,7 +183,7 @@ const TVShows: React.FC = () => {
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                 }`}
               >
-                🔴 En Emisión
+                {t('tvshows.onAir')}
               </button>
             </div>
           </div>
@@ -190,7 +192,7 @@ const TVShows: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Filter className="w-4 h-4 md:w-5 md:h-5 text-gray-400" />
-              <span className="text-gray-400 font-semibold text-sm md:text-base">Género:</span>
+              <span className="text-gray-400 font-semibold text-sm md:text-base">{t('tvshows.genre')}</span>
             </div>
             
             {/* Mobile: Dropdown */}
@@ -199,7 +201,7 @@ const TVShows: React.FC = () => {
               onChange={(e) => setSelectedGenre(e.target.value || null)}
               className="md:hidden w-full bg-dark-lighter text-white px-4 py-2 rounded-lg border border-dark-lighter focus:border-primary focus:outline-none"
             >
-              <option value="">Todos los géneros</option>
+              <option value="">{t('tvshows.allGenres')}</option>
               {TV_GENRES.map(genre => (
                 <option key={genre} value={genre}>
                   {genre}
@@ -217,7 +219,7 @@ const TVShows: React.FC = () => {
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                 }`}
               >
-                Todos
+                {t('tvshows.all')}
               </button>
               {TV_GENRES.map(genre => (
                 <button
@@ -274,7 +276,7 @@ const TVShows: React.FC = () => {
                 </div>
                 {show.status === 'Running' && (
                   <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">
-                    EN VIVO
+                    {t('tvshows.live')}
                   </div>
                 )}
               </motion.div>
@@ -284,10 +286,10 @@ const TVShows: React.FC = () => {
           <div className="bg-dark-light rounded-2xl p-16 text-center border border-dark-lighter">
             <Tv className="w-24 h-24 text-gray-600 mx-auto mb-6" />
             <h2 className="text-2xl font-bold text-white mb-4">
-              No se encontraron series
+              {t('tvshows.noShowsFound')}
             </h2>
             <p className="text-gray-400 mb-8">
-              Intenta con otra categoría o género
+              {t('tvshows.tryOtherCategory')}
             </p>
           </div>
         )}

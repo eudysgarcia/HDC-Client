@@ -8,8 +8,10 @@ import { Review } from '../types/review.types';
 import Loading from '../components/Loading';
 import TrailerModal from '../components/TrailerModal';
 import ReviewSection from '../components/ReviewSection';
+import { useTranslation } from 'react-i18next';
 
 const AnimeDetail: React.FC = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   
@@ -66,12 +68,12 @@ const AnimeDetail: React.FC = () => {
     return (
       <div className="min-h-screen bg-dark flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-white text-2xl font-bold mb-4">Anime no encontrado</h2>
+          <h2 className="text-white text-2xl font-bold mb-4">{t('anime.animeNotFound')}</h2>
           <button
             onClick={() => navigate('/anime')}
             className="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg"
           >
-            Volver a Anime
+            {t('anime.backToAnime')}
           </button>
         </div>
       </div>
@@ -121,7 +123,7 @@ const AnimeDetail: React.FC = () => {
                 className="text-gray-400 hover:text-white flex items-center gap-2 mb-4 transition-colors"
               >
                 <ArrowLeft className="w-5 h-5" />
-                Volver a Anime
+                {t('anime.backToAnime')}
               </button>
 
               <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-2xl">
@@ -182,7 +184,7 @@ const AnimeDetail: React.FC = () => {
                   className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-3 px-8 rounded-full flex items-center gap-2 transition-all shadow-lg"
                 >
                   <PlayCircle className="w-6 h-6" />
-                  Ver Trailer
+                  {t('anime.viewTrailer')}
                 </button>
               )}
             </motion.div>
@@ -194,9 +196,9 @@ const AnimeDetail: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 py-12 space-y-12">
         {/* Synopsis */}
         <div className="bg-dark-light rounded-2xl p-8 border border-dark-lighter">
-          <h2 className="text-3xl font-bold text-white mb-4">Sinopsis</h2>
+          <h2 className="text-3xl font-bold text-white mb-4">{t('anime.synopsis')}</h2>
           <p className="text-gray-300 text-lg leading-relaxed">
-            {anime.synopsis || 'Sin sinopsis disponible.'}
+            {anime.synopsis || t('anime.noSynopsis')}
           </p>
         </div>
 
@@ -205,32 +207,32 @@ const AnimeDetail: React.FC = () => {
           <div className="bg-dark-light rounded-xl p-6 border border-dark-lighter text-center">
             <Star className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
             <p className="text-3xl font-bold text-white">{anime.score || 'N/A'}</p>
-            <p className="text-gray-400">Calificación</p>
+            <p className="text-gray-400">{t('anime.rating')}</p>
           </div>
           <div className="bg-dark-light rounded-xl p-6 border border-dark-lighter text-center">
             <Users className="w-8 h-8 text-primary mx-auto mb-2" />
             <p className="text-3xl font-bold text-white">{anime.members?.toLocaleString() || 'N/A'}</p>
-            <p className="text-gray-400">Miembros</p>
+            <p className="text-gray-400">{t('anime.members')}</p>
           </div>
           <div className="bg-dark-light rounded-xl p-6 border border-dark-lighter text-center">
             <TrendingUp className="w-8 h-8 text-green-400 mx-auto mb-2" />
             <p className="text-3xl font-bold text-white">#{anime.popularity || 'N/A'}</p>
-            <p className="text-gray-400">Popularidad</p>
+            <p className="text-gray-400">{t('anime.popularity')}</p>
           </div>
           <div className="bg-dark-light rounded-xl p-6 border border-dark-lighter text-center">
             <Calendar className="w-8 h-8 text-blue-400 mx-auto mb-2" />
             <p className="text-2xl font-bold text-white">{anime.status || 'N/A'}</p>
-            <p className="text-gray-400">Estado</p>
+            <p className="text-gray-400">{t('anime.status')}</p>
           </div>
         </div>
 
         {/* Información adicional */}
         <div className="bg-dark-light rounded-2xl p-8 border border-dark-lighter">
-          <h2 className="text-2xl font-bold text-white mb-6">Información</h2>
+          <h2 className="text-2xl font-bold text-white mb-6">{t('anime.information')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
             {anime.studios.length > 0 && (
               <div>
-                <p className="text-gray-400 text-sm">Estudio</p>
+                <p className="text-gray-400 text-sm">{t('anime.studio')}</p>
                 <p className="text-white font-semibold">
                   {anime.studios.map(s => s.name).join(', ')}
                 </p>
@@ -238,19 +240,19 @@ const AnimeDetail: React.FC = () => {
             )}
             {anime.source && (
               <div>
-                <p className="text-gray-400 text-sm">Fuente</p>
+                <p className="text-gray-400 text-sm">{t('anime.source')}</p>
                 <p className="text-white font-semibold">{anime.source}</p>
               </div>
             )}
             {anime.duration && (
               <div>
-                <p className="text-gray-400 text-sm">Duración</p>
+                <p className="text-gray-400 text-sm">{t('anime.duration')}</p>
                 <p className="text-white font-semibold">{anime.duration}</p>
               </div>
             )}
             {anime.rating && (
               <div>
-                <p className="text-gray-400 text-sm">Clasificación</p>
+                <p className="text-gray-400 text-sm">{t('anime.classification')}</p>
                 <p className="text-white font-semibold">{anime.rating}</p>
               </div>
             )}
@@ -270,7 +272,7 @@ const AnimeDetail: React.FC = () => {
         {/* Recomendaciones */}
         {recommendations.length > 0 && (
           <div>
-            <h2 className="text-3xl font-bold text-white mb-6">Recomendaciones</h2>
+            <h2 className="text-3xl font-bold text-white mb-6">{t('anime.recommendations')}</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {recommendations.map((rec, index) => (
                 <motion.a

@@ -5,6 +5,7 @@ import { jikanService, JikanAnime } from '../services/jikanService';
 import Loading from '../components/Loading';
 import { Link } from 'react-router-dom';
 import { Star } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // Géneros REALES de Anime según MyAnimeList
 const ANIME_GENRES = [
@@ -27,6 +28,7 @@ const ANIME_GENRES = [
 ];
 
 const Anime: React.FC = () => {
+  const { t } = useTranslation();
   const [animeList, setAnimeList] = useState<JikanAnime[]>([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState<'all' | 'popular' | 'trending' | 'top_rated'>('popular');
@@ -96,7 +98,7 @@ const Anime: React.FC = () => {
             <div className="flex items-center justify-center mb-4">
               <div className="bg-gradient-to-r from-primary via-pink-500 to-purple-500 text-white py-3 px-6 rounded-full font-bold flex items-center gap-2 shadow-2xl">
                 <Sparkles className="w-5 h-5" />
-                <span>Ver Detalles</span>
+                <span>{t('anime.viewDetails')}</span>
               </div>
             </div>
           </div>
@@ -157,11 +159,11 @@ const Anime: React.FC = () => {
           <div className="flex items-center gap-4 mb-4">
             <Sparkles className="w-12 h-12 text-primary" />
             <h1 className="text-5xl font-bold text-white bg-gradient-to-r from-primary via-pink-500 to-purple-500 bg-clip-text text-transparent">
-              Anime
+              {t('anime.title')}
             </h1>
           </div>
           <p className="text-gray-400 text-lg">
-            Las mejores series de animación japonesa
+            {t('anime.subtitle')}
           </p>
         </div>
 
@@ -171,7 +173,7 @@ const Anime: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 md:gap-4 mb-3">
               <SortAsc className="w-4 h-4 md:w-5 md:h-5 text-gray-400" />
-              <span className="text-gray-400 font-semibold text-sm md:text-base">Categoría:</span>
+              <span className="text-gray-400 font-semibold text-sm md:text-base">{t('anime.category')}</span>
             </div>
             
             {/* Mobile: Dropdown */}
@@ -183,10 +185,10 @@ const Anime: React.FC = () => {
               }}
               className="md:hidden w-full bg-dark-lighter text-white px-4 py-2 rounded-lg border border-dark-lighter focus:border-primary focus:outline-none"
             >
-              <option value="all">⭐ Todos</option>
-              <option value="popular">Populares</option>
-              <option value="trending">En Tendencia</option>
-              <option value="top_rated">Mejor Valorados</option>
+              <option value="all">{t('anime.all')}</option>
+              <option value="popular">{t('anime.popular')}</option>
+              <option value="trending">{t('anime.trending')}</option>
+              <option value="top_rated">{t('anime.topRated')}</option>
             </select>
             
             {/* Desktop: Buttons */}
@@ -202,7 +204,7 @@ const Anime: React.FC = () => {
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                 }`}
               >
-                ⭐ Todos
+                {t('anime.all')}
               </button>
               <button
                 onClick={() => {
@@ -215,7 +217,7 @@ const Anime: React.FC = () => {
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                 }`}
               >
-                Populares
+                {t('anime.popular')}
               </button>
               <button
                 onClick={() => {
@@ -228,7 +230,7 @@ const Anime: React.FC = () => {
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                 }`}
               >
-                En Tendencia
+                {t('anime.trending')}
               </button>
               <button
                 onClick={() => {
@@ -241,7 +243,7 @@ const Anime: React.FC = () => {
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                 }`}
               >
-                Mejor Valorados
+                {t('anime.topRated')}
               </button>
             </div>
           </div>
@@ -250,7 +252,7 @@ const Anime: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Filter className="w-4 h-4 md:w-5 md:h-5 text-gray-400" />
-              <span className="text-gray-400 font-semibold text-sm md:text-base">Género:</span>
+              <span className="text-gray-400 font-semibold text-sm md:text-base">{t('anime.genre')}</span>
             </div>
             
             {/* Mobile: Dropdown */}
@@ -259,7 +261,7 @@ const Anime: React.FC = () => {
               onChange={(e) => setSelectedGenre(e.target.value ? parseInt(e.target.value) : null)}
               className="md:hidden w-full bg-dark-lighter text-white px-4 py-2 rounded-lg border border-dark-lighter focus:border-primary focus:outline-none"
             >
-              <option value="">Todos los géneros</option>
+              <option value="">{t('anime.allGenres')}</option>
               {ANIME_GENRES.map(genre => (
                 <option key={genre.id} value={genre.id}>
                   {genre.name}
@@ -277,7 +279,7 @@ const Anime: React.FC = () => {
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                 }`}
               >
-                Todos
+                {t('anime.all')}
               </button>
               {ANIME_GENRES.map(genre => (
                 <button
@@ -307,10 +309,10 @@ const Anime: React.FC = () => {
           <div className="bg-dark-light rounded-2xl p-16 text-center border border-dark-lighter">
             <Sparkles className="w-24 h-24 text-gray-600 mx-auto mb-6" />
             <h2 className="text-2xl font-bold text-white mb-4">
-              No se encontraron series de anime
+              {t('anime.noAnimeFound')}
             </h2>
             <p className="text-gray-400 mb-8">
-              Intenta con otra categoría o género
+              {t('anime.tryOtherCategory')}
             </p>
             <button
               onClick={() => {
@@ -320,7 +322,7 @@ const Anime: React.FC = () => {
               }}
               className="inline-block bg-gradient-to-r from-primary via-pink-500 to-purple-500 hover:from-primary-dark hover:to-purple-600 text-white font-bold px-8 py-3 rounded-full transition-all shadow-lg shadow-primary/50"
             >
-              Ver Todos
+              {t('anime.viewAll')}
             </button>
           </div>
         )}
@@ -345,12 +347,10 @@ const Anime: React.FC = () => {
         {/* Info adicional */}
         <div className="mt-12 bg-gradient-to-r from-primary/10 via-pink-500/10 to-purple-500/10 rounded-2xl p-8 border border-primary/30">
           <h3 className="text-2xl font-bold text-white mb-4">
-            Sobre nuestra colección de Anime
+            {t('anime.aboutCollection')}
           </h3>
           <p className="text-gray-300 leading-relaxed">
-            Descubre las mejores series de anime japonés, desde clásicos hasta los más recientes estrenos.
-            Nuestra colección incluye shōnen, shōjo, seinen, isekai y muchos más géneros para todos los gustos.
-            Filtra por categoría y género para encontrar tu próximo anime favorito.
+            {t('anime.aboutDescription')}
           </p>
         </div>
       </div>
