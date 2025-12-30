@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import { LoginModalProvider, useLoginModal } from './context/LoginModalContext';
+import { FavoritesProvider } from './context/FavoritesContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -60,11 +61,13 @@ const AppContent = () => {
 function App() {
   return (
     <AuthProvider>
-      <ToastProvider>
-        <LoginModalProvider>
-          <AppContent />
-        </LoginModalProvider>
-      </ToastProvider>
+      <FavoritesProvider>
+        <ToastProvider>
+          <LoginModalProvider>
+            <AppContent />
+          </LoginModalProvider>
+        </ToastProvider>
+      </FavoritesProvider>
     </AuthProvider>
   );
 }

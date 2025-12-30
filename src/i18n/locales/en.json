@@ -1,0 +1,138 @@
+{
+  "nav": {
+    "home": "Home",
+    "movies": "Movies",
+    "tvShows": "TV Shows",
+    "anime": "Anime",
+    "trending": "Trending",
+    "search": "Search",
+    "login": "Log In",
+    "register": "Sign Up",
+    "profile": "Profile",
+    "favorites": "Favorites",
+    "watchlist": "Watchlist",
+    "logout": "Log Out"
+  },
+  "home": {
+    "trending": "🔥 Trending This Week",
+    "topRated": "⭐ Top Rated",
+    "popular": "🎬 Popular",
+    "upcoming": "🎭 Coming Soon",
+    "watchNow": "Watch Now",
+    "moreInfo": "More Info"
+  },
+  "movie": {
+    "overview": "Overview",
+    "releaseDate": "Release Date",
+    "runtime": "Runtime",
+    "budget": "Budget",
+    "revenue": "Revenue",
+    "genres": "Genres",
+    "cast": "Main Cast",
+    "director": "Director",
+    "reviews": "Reviews",
+    "trailer": "Watch Trailer",
+    "similar": "Similar Movies",
+    "addToFavorites": "Add to Favorites",
+    "removeFromFavorites": "In Favorites",
+    "addToWatchlist": "Add to Watchlist",
+    "removeFromWatchlist": "In Watchlist",
+    "information": "Information",
+    "status": "Status",
+    "originalLanguage": "Original Language",
+    "notFound": "Movie not found"
+  },
+  "favorites": {
+    "title": "My Favorites",
+    "empty": "You don't have any favorite movies yet",
+    "emptyDescription": "Explore our catalog and add your favorite movies",
+    "explore": "Explore Movies",
+    "sortBy": "Sort by:",
+    "date": "Date",
+    "rating": "Rating",
+    "movieTitle": "Title",
+    "count": "{{count}} movie",
+    "count_plural": "{{count}} movies",
+    "inList": "in your favorites list"
+  },
+  "watchlist": {
+    "title": "Watchlist",
+    "empty": "Your watchlist is empty",
+    "emptyDescription": "Add movies you want to watch later",
+    "explore": "Explore Movies",
+    "sortBy": "Sort by:",
+    "date": "Date",
+    "rating": "Rating",
+    "movieTitle": "Title",
+    "count": "{{count}} movie",
+    "count_plural": "{{count}} movies",
+    "inList": "in your list"
+  },
+  "profile": {
+    "title": "My Profile",
+    "edit": "Edit Profile",
+    "save": "Save",
+    "cancel": "Cancel",
+    "name": "Name",
+    "email": "Email",
+    "bio": "Bio",
+    "favoriteGenre": "Favorite Genre",
+    "memberSince": "Member since",
+    "stats": "Statistics",
+    "favoritesCount": "Favorites",
+    "watchlistCount": "Watchlist",
+    "reviewsCount": "Reviews"
+  },
+  "auth": {
+    "login": "Log In",
+    "register": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Name",
+    "username": "Username",
+    "forgotPassword": "Forgot your password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "loginError": "Error logging in",
+    "registerError": "Error signing up",
+    "logoutSuccess": "Successfully logged out"
+  },
+  "toast": {
+    "addedToFavorites": "Added to favorites",
+    "removedFromFavorites": "Removed from favorites",
+    "addedToWatchlist": "Added to watchlist",
+    "removedFromWatchlist": "Removed from watchlist",
+    "error": "An error occurred",
+    "success": "Operation successful"
+  },
+  "search": {
+    "placeholder": "Search movies, TV shows, anime...",
+    "results": "Search results",
+    "noResults": "No results found",
+    "searching": "Searching..."
+  },
+  "footer": {
+    "tagline": "Your favorite platform to discover movies and TV shows",
+    "aboutUs": "About Us",
+    "contact": "Contact",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "followUs": "Follow Us",
+    "allRightsReserved": "All rights reserved"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "viewDetails": "View Details",
+    "year": "Year",
+    "notAvailable": "N/A"
+  }
+}
+

@@ -1,8 +1,11 @@
 import React from 'react';
 import { Film } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const Loading: React.FC = () => {
+  const { t } = useTranslation();
+  
   return (
     <div className="min-h-screen bg-dark flex items-center justify-center">
       <motion.div
@@ -16,7 +19,7 @@ const Loading: React.FC = () => {
         className="text-center"
       >
         <Film className="w-16 h-16 text-primary mx-auto mb-4" />
-        <h2 className="text-white text-xl font-semibold">Cargando...</h2>
+        <h2 className="text-white text-xl font-semibold">{t('common.loading')}</h2>
       </motion.div>
     </div>
   );

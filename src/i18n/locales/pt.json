@@ -1,0 +1,138 @@
+{
+  "nav": {
+    "home": "Início",
+    "movies": "Filmes",
+    "tvShows": "Séries",
+    "anime": "Anime",
+    "trending": "Tendências",
+    "search": "Buscar",
+    "login": "Entrar",
+    "register": "Cadastrar",
+    "profile": "Perfil",
+    "favorites": "Favoritos",
+    "watchlist": "Assistir Depois",
+    "logout": "Sair"
+  },
+  "home": {
+    "trending": "🔥 Tendências da Semana",
+    "topRated": "⭐ Mais Bem Avaliados",
+    "popular": "🎬 Populares",
+    "upcoming": "🎭 Em Breve",
+    "watchNow": "Assistir Agora",
+    "moreInfo": "Mais Info"
+  },
+  "movie": {
+    "overview": "Sinopse",
+    "releaseDate": "Data de Lançamento",
+    "runtime": "Duração",
+    "budget": "Orçamento",
+    "revenue": "Arrecadação",
+    "genres": "Gêneros",
+    "cast": "Elenco Principal",
+    "director": "Diretor",
+    "reviews": "Avaliações",
+    "trailer": "Ver Trailer",
+    "similar": "Filmes Similares",
+    "addToFavorites": "Adicionar aos Favoritos",
+    "removeFromFavorites": "Nos Favoritos",
+    "addToWatchlist": "Adicionar à Lista",
+    "removeFromWatchlist": "Na Lista",
+    "information": "Informação",
+    "status": "Status",
+    "originalLanguage": "Idioma Original",
+    "notFound": "Filme não encontrado"
+  },
+  "favorites": {
+    "title": "Meus Favoritos",
+    "empty": "Você ainda não tem filmes favoritos",
+    "emptyDescription": "Explore nosso catálogo e adicione seus filmes favoritos",
+    "explore": "Explorar Filmes",
+    "sortBy": "Ordenar por:",
+    "date": "Data",
+    "rating": "Avaliação",
+    "movieTitle": "Título",
+    "count": "{{count}} filme",
+    "count_plural": "{{count}} filmes",
+    "inList": "na sua lista de favoritos"
+  },
+  "watchlist": {
+    "title": "Assistir Depois",
+    "empty": "Sua lista está vazia",
+    "emptyDescription": "Adicione filmes que deseja assistir depois",
+    "explore": "Explorar Filmes",
+    "sortBy": "Ordenar por:",
+    "date": "Data",
+    "rating": "Avaliação",
+    "movieTitle": "Título",
+    "count": "{{count}} filme",
+    "count_plural": "{{count}} filmes",
+    "inList": "na sua lista"
+  },
+  "profile": {
+    "title": "Meu Perfil",
+    "edit": "Editar Perfil",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "name": "Nome",
+    "email": "E-mail",
+    "bio": "Biografia",
+    "favoriteGenre": "Gênero Favorito",
+    "memberSince": "Membro desde",
+    "stats": "Estatísticas",
+    "favoritesCount": "Favoritos",
+    "watchlistCount": "Assistir Depois",
+    "reviewsCount": "Avaliações"
+  },
+  "auth": {
+    "login": "Entrar",
+    "register": "Cadastrar",
+    "email": "E-mail",
+    "password": "Senha",
+    "confirmPassword": "Confirmar Senha",
+    "name": "Nome",
+    "username": "Usuário",
+    "forgotPassword": "Esqueceu sua senha?",
+    "noAccount": "Não tem uma conta?",
+    "hasAccount": "Já tem uma conta?",
+    "signUp": "Cadastre-se",
+    "signIn": "Entre",
+    "loginError": "Erro ao entrar",
+    "registerError": "Erro ao cadastrar",
+    "logoutSuccess": "Sessão encerrada com sucesso"
+  },
+  "toast": {
+    "addedToFavorites": "Adicionado aos favoritos",
+    "removedFromFavorites": "Removido dos favoritos",
+    "addedToWatchlist": "Adicionado à lista",
+    "removedFromWatchlist": "Removido da lista",
+    "error": "Ocorreu um erro",
+    "success": "Operação bem-sucedida"
+  },
+  "search": {
+    "placeholder": "Buscar filmes, séries, anime...",
+    "results": "Resultados da busca",
+    "noResults": "Nenhum resultado encontrado",
+    "searching": "Buscando..."
+  },
+  "footer": {
+    "tagline": "Sua plataforma favorita para descobrir filmes e séries",
+    "aboutUs": "Sobre Nós",
+    "contact": "Contato",
+    "terms": "Termos de Serviço",
+    "privacy": "Política de Privacidade",
+    "followUs": "Siga-nos",
+    "allRightsReserved": "Todos os direitos reservados"
+  },
+  "common": {
+    "loading": "Carregando...",
+    "error": "Erro",
+    "close": "Fechar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "viewDetails": "Ver Detalhes",
+    "year": "Ano",
+    "notAvailable": "N/D"
+  }
+}
+

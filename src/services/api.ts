@@ -13,13 +13,18 @@ const api = axios.create({
   },
 });
 
-// Interceptor para agregar el token a cada solicitud
+// Interceptor para agregar el token y el idioma a cada solicitud
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    
+    // Agregar idioma actual a los headers
+    const language = localStorage.getItem('language') || 'es';
+    config.headers['Accept-Language'] = language;
+    
     return config;
   },
   (error) => {

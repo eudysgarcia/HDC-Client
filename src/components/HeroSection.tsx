@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import { Play, Star } from 'lucide-react';
 import { Movie } from '../types/movie.types';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 interface HeroSectionProps {
   movie: Movie;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
+  const { t } = useTranslation();
   const [imageLoaded, setImageLoaded] = useState(false);
   const placeholderImage = 'https://via.placeholder.com/1920x1080/1f1f1f/666666?text=Hablemos de Cine';
 
@@ -104,7 +106,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
                 className="bg-gradient-to-r from-primary to-red-700 hover:from-primary-dark hover:to-red-800 text-white font-bold py-4 px-10 rounded-full flex items-center gap-3 transition-all shadow-2xl shadow-primary/50"
               >
                 <Play className="w-6 h-6 fill-white" />
-                <span className="text-lg">Ver Detalles</span>
+                <span className="text-lg">{t('common.viewDetails')}</span>
               </motion.button>
             </Link>
 {/*             <Link to={`/movie/${movie.id}`}>

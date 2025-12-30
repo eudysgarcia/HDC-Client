@@ -1,0 +1,138 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "movies": "Películas",
+    "tvShows": "Series",
+    "anime": "Anime",
+    "trending": "Tendencias",
+    "search": "Buscar",
+    "login": "Iniciar Sesión",
+    "register": "Registrarse",
+    "profile": "Perfil",
+    "favorites": "Favoritos",
+    "watchlist": "Ver Más Tarde",
+    "logout": "Cerrar Sesión"
+  },
+  "home": {
+    "trending": "🔥 Tendencias de la Semana",
+    "topRated": "⭐ Mejor Calificadas",
+    "popular": "🎬 Populares",
+    "upcoming": "🎭 Próximos Estrenos",
+    "watchNow": "Ver Ahora",
+    "moreInfo": "Más Info"
+  },
+  "movie": {
+    "overview": "Sinopsis",
+    "releaseDate": "Fecha de Estreno",
+    "runtime": "Duración",
+    "budget": "Presupuesto",
+    "revenue": "Recaudación",
+    "genres": "Géneros",
+    "cast": "Elenco Principal",
+    "director": "Director",
+    "reviews": "Reseñas",
+    "trailer": "Ver Trailer",
+    "similar": "Películas Similares",
+    "addToFavorites": "Agregar a Favoritos",
+    "removeFromFavorites": "En Favoritos",
+    "addToWatchlist": "Agregar a Mi Lista",
+    "removeFromWatchlist": "En Mi Lista",
+    "information": "Información",
+    "status": "Estado",
+    "originalLanguage": "Idioma Original",
+    "notFound": "Película no encontrada"
+  },
+  "favorites": {
+    "title": "Mis Favoritas",
+    "empty": "No tienes películas favoritas aún",
+    "emptyDescription": "Explora nuestro catálogo y agrega tus películas favoritas",
+    "explore": "Explorar Películas",
+    "sortBy": "Ordenar por:",
+    "date": "Fecha",
+    "rating": "Calificación",
+    "movieTitle": "Título",
+    "count": "{{count}} película",
+    "count_plural": "{{count}} películas",
+    "inList": "en tu lista de favoritos"
+  },
+  "watchlist": {
+    "title": "Ver Más Tarde",
+    "empty": "Tu lista está vacía",
+    "emptyDescription": "Agrega películas que quieras ver más tarde",
+    "explore": "Explorar Películas",
+    "sortBy": "Ordenar por:",
+    "date": "Fecha",
+    "rating": "Calificación",
+    "movieTitle": "Título",
+    "count": "{{count}} película",
+    "count_plural": "{{count}} películas",
+    "inList": "en tu lista"
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "edit": "Editar Perfil",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "name": "Nombre",
+    "email": "Correo Electrónico",
+    "bio": "Biografía",
+    "favoriteGenre": "Género Favorito",
+    "memberSince": "Miembro desde",
+    "stats": "Estadísticas",
+    "favoritesCount": "Favoritos",
+    "watchlistCount": "Ver Más Tarde",
+    "reviewsCount": "Reseñas"
+  },
+  "auth": {
+    "login": "Iniciar Sesión",
+    "register": "Registrarse",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "name": "Nombre",
+    "username": "Usuario",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿No tienes cuenta?",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "signUp": "Regístrate",
+    "signIn": "Inicia Sesión",
+    "loginError": "Error al iniciar sesión",
+    "registerError": "Error al registrarse",
+    "logoutSuccess": "Sesión cerrada exitosamente"
+  },
+  "toast": {
+    "addedToFavorites": "Agregado a favoritos",
+    "removedFromFavorites": "Eliminado de favoritos",
+    "addedToWatchlist": "Agregado a ver más tarde",
+    "removedFromWatchlist": "Eliminado de ver más tarde",
+    "error": "Ha ocurrido un error",
+    "success": "Operación exitosa"
+  },
+  "search": {
+    "placeholder": "Buscar películas, series, anime...",
+    "results": "Resultados de búsqueda",
+    "noResults": "No se encontraron resultados",
+    "searching": "Buscando..."
+  },
+  "footer": {
+    "tagline": "Tu plataforma favorita para descubrir películas y series",
+    "aboutUs": "Sobre Nosotros",
+    "contact": "Contacto",
+    "terms": "Términos de Servicio",
+    "privacy": "Política de Privacidad",
+    "followUs": "Síguenos",
+    "allRightsReserved": "Todos los derechos reservados"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "close": "Cerrar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "viewDetails": "Ver Detalles",
+    "year": "Año",
+    "notAvailable": "N/A"
+  }
+}
+

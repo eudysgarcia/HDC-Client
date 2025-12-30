@@ -3,9 +3,12 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Search, Film, User, LogOut, Heart, List, Menu, X, Home, Tv, Sparkles, TrendingUp } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import LanguageSelector from './LanguageSelector';
+import { useTranslation } from 'react-i18next';
 
 const Navbar: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
@@ -47,31 +50,31 @@ const Navbar: React.FC = () => {
               to="/"
               className="text-gray-300 hover:text-white font-semibold transition-colors"
             >
-              Inicio
+              {t('nav.home')}
             </Link>
             <Link
               to="/movies"
               className="text-gray-300 hover:text-white font-semibold transition-colors"
             >
-              Películas
+              {t('nav.movies')}
             </Link>
             <Link
               to="/tv-shows"
               className="text-gray-300 hover:text-white font-semibold transition-colors"
             >
-              Series
+              {t('nav.tvShows')}
             </Link>
             <Link
               to="/anime"
               className="text-gray-300 hover:text-white font-semibold transition-colors"
             >
-              Anime
+              {t('nav.anime')}
             </Link>
             <Link
               to="/trending"
               className="text-gray-300 hover:text-white font-semibold transition-colors"
             >
-              Tendencias
+              {t('nav.trending')}
             </Link>
           </div>
 
@@ -80,7 +83,7 @@ const Navbar: React.FC = () => {
             <div className="relative">
               <input
                 type="text"
-                placeholder="Buscar películas..."
+                placeholder={t('search.placeholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="bg-dark-lighter text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -89,8 +92,9 @@ const Navbar: React.FC = () => {
             </div>
           </form>
 
-          {/* User Menu */}
+          {/* Language Selector & User Menu */}
           <div className="hidden md:flex items-center space-x-4">
+            <LanguageSelector />
             {isAuthenticated ? (
               <div className="relative">
                 <button
@@ -123,7 +127,7 @@ const Navbar: React.FC = () => {
                         onClick={() => setShowUserMenu(false)}
                       >
                         <User className="w-4 h-4" />
-                        <span>Perfil</span>
+                        <span>{t('nav.profile')}</span>
                       </Link>
                       <Link
                         to="/favorites"
@@ -131,7 +135,7 @@ const Navbar: React.FC = () => {
                         onClick={() => setShowUserMenu(false)}
                       >
                         <Heart className="w-4 h-4" />
-                        <span>Favoritos</span>
+                        <span>{t('nav.favorites')}</span>
                       </Link>
                       <Link
                         to="/watchlist"
@@ -139,14 +143,14 @@ const Navbar: React.FC = () => {
                         onClick={() => setShowUserMenu(false)}
                       >
                         <List className="w-4 h-4" />
-                        <span>Mi Lista</span>
+                        <span>{t('nav.watchlist')}</span>
                       </Link>
                       <button
                         onClick={handleLogout}
                         className="w-full text-left px-4 py-3 text-gray-300 hover:bg-dark-lighter hover:text-white transition-colors flex items-center space-x-2 border-t border-dark-lighter"
                       >
                         <LogOut className="w-4 h-4" />
-                        <span>Cerrar Sesión</span>
+                        <span>{t('nav.logout')}</span>
                       </button>
                     </motion.div>
                   )}
@@ -158,13 +162,13 @@ const Navbar: React.FC = () => {
                   to="/login"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
-                  Iniciar Sesión
+                  {t('nav.login')}
                 </Link>
                 <Link
                   to="/register"
                   className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-colors"
                 >
-                  Registrarse
+                  {t('nav.register')}
                 </Link>
               </div>
             )}
@@ -195,7 +199,7 @@ const Navbar: React.FC = () => {
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Buscar películas..."
+                    placeholder={t('search.placeholder')}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full bg-dark-lighter text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -203,6 +207,11 @@ const Navbar: React.FC = () => {
                   <Search className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
                 </div>
               </form>
+
+              {/* Language Selector */}
+              <div className="flex justify-center">
+                <LanguageSelector />
+              </div>
 
               {/* Navigation Section */}
               <div className="space-y-2">
@@ -220,7 +229,7 @@ const Navbar: React.FC = () => {
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <Home className="w-5 h-5" />
-                  <span className="font-semibold">Inicio</span>
+                  <span className="font-semibold">{t('nav.home')}</span>
                 </Link>
 
                 <Link
@@ -233,7 +242,7 @@ const Navbar: React.FC = () => {
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <Film className="w-5 h-5" />
-                  <span className="font-semibold">Películas</span>
+                  <span className="font-semibold">{t('nav.movies')}</span>
                 </Link>
 
                 <Link
@@ -246,7 +255,7 @@ const Navbar: React.FC = () => {
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <Tv className="w-5 h-5" />
-                  <span className="font-semibold">Series</span>
+                  <span className="font-semibold">{t('nav.tvShows')}</span>
                 </Link>
 
                 <Link
@@ -259,7 +268,7 @@ const Navbar: React.FC = () => {
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <Sparkles className="w-5 h-5" />
-                  <span className="font-semibold">Anime</span>
+                  <span className="font-semibold">{t('nav.anime')}</span>
                 </Link>
 
                 <Link
@@ -272,7 +281,7 @@ const Navbar: React.FC = () => {
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <TrendingUp className="w-5 h-5" />
-                  <span className="font-semibold">🔥 Tendencias</span>
+                  <span className="font-semibold">🔥 {t('nav.trending')}</span>
                 </Link>
               </div>
 
@@ -294,7 +303,7 @@ const Navbar: React.FC = () => {
                       onClick={() => setShowMobileMenu(false)}
                     >
                       <User className="w-5 h-5" />
-                      <span className="font-semibold">Perfil</span>
+                      <span className="font-semibold">{t('nav.profile')}</span>
                     </Link>
 
                     <Link
@@ -307,7 +316,7 @@ const Navbar: React.FC = () => {
                       onClick={() => setShowMobileMenu(false)}
                     >
                       <Heart className="w-5 h-5" />
-                      <span className="font-semibold">Favoritos</span>
+                      <span className="font-semibold">{t('nav.favorites')}</span>
                     </Link>
 
                     <Link
@@ -320,7 +329,7 @@ const Navbar: React.FC = () => {
                       onClick={() => setShowMobileMenu(false)}
                     >
                       <List className="w-5 h-5" />
-                      <span className="font-semibold">Mi Lista</span>
+                      <span className="font-semibold">{t('nav.watchlist')}</span>
                     </Link>
 
                     <button
@@ -328,7 +337,7 @@ const Navbar: React.FC = () => {
                       className="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-300 hover:bg-red-500/10 hover:text-red-400 transition-all w-full text-left"
                     >
                       <LogOut className="w-5 h-5" />
-                      <span className="font-semibold">Cerrar Sesión</span>
+                      <span className="font-semibold">{t('nav.logout')}</span>
                     </button>
                   </div>
 
@@ -354,14 +363,14 @@ const Navbar: React.FC = () => {
                     className="block w-full text-center px-4 py-3 rounded-lg text-gray-300 hover:bg-dark-lighter hover:text-white transition-all font-semibold"
                     onClick={() => setShowMobileMenu(false)}
                   >
-                    Iniciar Sesión
+                    {t('nav.login')}
                   </Link>
                   <Link
                     to="/register"
                     className="block w-full text-center bg-gradient-to-r from-primary to-red-600 hover:from-primary-dark hover:to-red-700 text-white px-4 py-3 rounded-lg transition-all font-semibold shadow-lg shadow-primary/20"
                     onClick={() => setShowMobileMenu(false)}
                   >
-                    Registrarse
+                    {t('nav.register')}
                   </Link>
                 </div>
               )}

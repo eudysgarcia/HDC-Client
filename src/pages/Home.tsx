@@ -5,8 +5,10 @@ import HeroSection from '../components/HeroSection';
 import MovieRow from '../components/MovieRow';
 import Loading from '../components/Loading';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const Home: React.FC = () => {
+  const { t } = useTranslation();
   const [trending, setTrending] = useState<Movie[]>([]);
   const [popular, setPopular] = useState<Movie[]>([]);
   const [topRated, setTopRated] = useState<Movie[]>([]);
@@ -91,10 +93,10 @@ const Home: React.FC = () => {
 
       {/* Movie Rows - Con espaciado adecuado */}
       <div className="relative z-10 py-16 bg-gradient-to-b from-dark via-dark to-dark-light space-y-16 px-4">
-        <MovieRow title="🔥 Tendencias de la Semana" movies={trending} />
-        <MovieRow title="⭐ Mejor Calificadas" movies={topRated} />
-        <MovieRow title="🎬 Populares" movies={popular} />
-        <MovieRow title="🎭 Próximos Estrenos" movies={upcoming} />
+        <MovieRow title={t('home.trending')} movies={trending} />
+        <MovieRow title={t('home.topRated')} movies={topRated} />
+        <MovieRow title={t('home.popular')} movies={popular} />
+        <MovieRow title={t('home.upcoming')} movies={upcoming} />
       </div>
     </motion.div>
   );

@@ -6,8 +6,10 @@ import { movieService } from '../services/movieService';
 import { Movie } from '../types/movie.types';
 import MovieCard from '../components/MovieCard';
 import Loading from '../components/Loading';
+import { useTranslation } from 'react-i18next';
 
 const Watchlist: React.FC = () => {
+  const { t } = useTranslation();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState<'date' | 'rating' | 'title'>('date');
@@ -60,10 +62,10 @@ const Watchlist: React.FC = () => {
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <ListIcon className="w-8 h-8 text-primary" />
-            <h1 className="text-4xl font-bold text-white">Mi Lista</h1>
+            <h1 className="text-4xl font-bold text-white">{t('watchlist.title')}</h1>
           </div>
           <p className="text-gray-400">
-            {movies.length} {movies.length === 1 ? 'película' : 'películas'} para ver más tarde
+            {t('watchlist.count', { count: movies.length })} {t('watchlist.inList')}
           </p>
         </div>
 
@@ -71,7 +73,7 @@ const Watchlist: React.FC = () => {
         <div className="flex flex-wrap items-center gap-4 mb-8">
           <div className="flex items-center gap-2">
             <SortAsc className="w-5 h-5 text-gray-400" />
-            <span className="text-gray-400">Ordenar por:</span>
+            <span className="text-gray-400">{t('watchlist.sortBy')}</span>
           </div>
           <div className="flex gap-2">
             <button
@@ -82,7 +84,7 @@ const Watchlist: React.FC = () => {
                   : 'bg-dark-light text-gray-400 hover:bg-dark-lighter'
               }`}
             >
-              Fecha
+              {t('watchlist.date')}
             </button>
             <button
               onClick={() => setSortBy('rating')}
@@ -92,7 +94,7 @@ const Watchlist: React.FC = () => {
                   : 'bg-dark-light text-gray-400 hover:bg-dark-lighter'
               }`}
             >
-              Calificación
+              {t('watchlist.rating')}
             </button>
             <button
               onClick={() => setSortBy('title')}
@@ -102,7 +104,7 @@ const Watchlist: React.FC = () => {
                   : 'bg-dark-light text-gray-400 hover:bg-dark-lighter'
               }`}
             >
-              Título
+              {t('watchlist.movieTitle')}
             </button>
           </div>
         </div>
@@ -118,16 +120,16 @@ const Watchlist: React.FC = () => {
           <div className="bg-dark-light rounded-2xl p-16 text-center border border-dark-lighter">
             <ListIcon className="w-24 h-24 text-gray-600 mx-auto mb-6" />
             <h2 className="text-2xl font-bold text-white mb-4">
-              Tu lista está vacía
+              {t('watchlist.empty')}
             </h2>
             <p className="text-gray-400 mb-8">
-              Agrega películas que quieras ver más tarde
+              {t('watchlist.emptyDescription')}
             </p>
             <a
               href="/"
               className="inline-block bg-primary hover:bg-primary-dark text-white font-bold px-8 py-3 rounded-lg transition-colors"
             >
-              Explorar Películas
+              {t('watchlist.explore')}
             </a>
           </div>
         )}

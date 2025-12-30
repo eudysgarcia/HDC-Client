@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Star, Play, Heart } from 'lucide-react';
 import { Movie } from '../types/movie.types';
@@ -6,7 +6,8 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useToastContext } from '../context/ToastContext';
 import { useLoginModal } from '../context/LoginModalContext';
-import { userService } from '../services/userService';
+import { useFavorites } from '../context/FavoritesContext';
+import { useTranslation } from 'react-i18next';
 
 interface MovieCardProps {
   movie: Movie;
@@ -17,8 +18,12 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, index = 0 }) => {
   const { isAuthenticated } = useAuth();
   const { success } = useToastContext();
   const { openLoginModal } = useLoginModal();
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
+  const { t } = useTranslation();
   const placeholderImage = 'https://via.placeholder.com/300x450/1f1f1f/666666?text=Sin+Imagen';
+  
+  // Verificar si esta película está en favoritos
+  const isMovieFavorite = isFavorite(movie.id);
   
   // Helper para obtener la URL completa de la imagen
   const getImageUrl = (path: string | null) => {
@@ -37,14 +42,12 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, index = 0 }) => {
     }
 
     try {
-      if (isFavorite) {
-        await userService.removeFromFavorites(movie.id);
-        setIsFavorite(false);
-        success('Eliminado de favoritos');
+      if (isMovieFavorite) {
+        await removeFromFavorites(movie.id);
+        success(t('toast.removedFromFavorites'));
       } else {
-        await userService.addToFavorites(movie.id);
-        setIsFavorite(true);
-        success('Agregado a favoritos');
+        await addToFavorites(movie.id);
+        success(t('toast.addedToFavorites'));
       }
     } catch (error) {
       console.error('Error al actualizar favoritos:', error);
@@ -77,7 +80,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, index = 0 }) => {
             <div className="flex items-center justify-center mb-4">
               <div className="bg-gradient-to-r from-primary to-red-600 text-white px-2 py-2 rounded-full font-bold flex items-center gap-2 shadow-2xl">
                 <Play className="w-3 h-3 fill-white" />
-                <span>Ver Detalles</span>
+                <span>{t('common.viewDetails')}</span>
               </div>
             </div>
           </div>
@@ -96,12 +99,12 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, index = 0 }) => {
             whileTap={{ scale: 0.9 }}
             onClick={handleToggleFavorite}
             className={`absolute top-3 left-3 p-2 rounded-full backdrop-blur-md border-2 transition-all shadow-lg ${
-              isFavorite
+              isMovieFavorite
                 ? 'bg-red-500 border-red-400 text-white'
                 : 'bg-black/50 border-white/30 text-white hover:bg-red-500 hover:border-red-400'
             }`}
           >
-            <Heart className={`w-5 h-5 ${isFavorite ? 'fill-white' : ''}`} />
+            <Heart className={`w-5 h-5 ${isMovieFavorite ? 'fill-white' : ''}`} />
           </motion.button>
         </div>
 

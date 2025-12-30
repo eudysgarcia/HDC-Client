@@ -10,24 +10,29 @@ import { Review } from '../types/review.types';
 import { useAuth } from '../context/AuthContext';
 import { useToastContext } from '../context/ToastContext';
 import { useLoginModal } from '../context/LoginModalContext';
+import { useFavorites } from '../context/FavoritesContext';
 import Loading from '../components/Loading';
 import MovieRow from '../components/MovieRow';
 import ReviewSection from '../components/ReviewSection';
 import TrailerModal from '../components/TrailerModal';
+import { useTranslation } from 'react-i18next';
 
 const MovieDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
   const { success, error: showError } = useToastContext();
   const { openLoginModal } = useLoginModal();
+  const { isFavorite: checkIsFavorite, isInWatchlist: checkIsInWatchlist, addToFavorites, removeFromFavorites, addToWatchlist, removeFromWatchlist } = useFavorites();
   
   const [movie, setMovie] = useState<MovieDetailsType | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [showTrailer, setShowTrailer] = useState(false);
+  
+  const isFavorite = movie ? checkIsFavorite(movie.id) : false;
+  const isInWatchlist = movie ? checkIsInWatchlist(movie.id) : false;
 
   const fetchReviews = async () => {
     if (!id) return;
@@ -50,17 +55,6 @@ const MovieDetail: React.FC = () => {
 
         // Cargar reviews
         await fetchReviews();
-
-        // Si está autenticado, verificar favoritos y watchlist
-        if (isAuthenticated) {
-          try {
-            const profile = await userService.getProfile();
-            setIsFavorite(profile.favoriteMovies.includes(parseInt(id)));
-            setIsInWatchlist(profile.watchlist.includes(parseInt(id)));
-          } catch (error) {
-            console.error('Error al cargar perfil:', error);
-          }
-        }
       } catch (error) {
         console.error('Error al cargar película:', error);
       } finally {
@@ -69,7 +63,7 @@ const MovieDetail: React.FC = () => {
     };
 
     fetchMovieData();
-  }, [id, isAuthenticated]);
+  }, [id]);
 
   const handleToggleFavorite = async () => {
     if (!movie) return;
@@ -81,17 +75,15 @@ const MovieDetail: React.FC = () => {
 
     try {
       if (isFavorite) {
-        await userService.removeFromFavorites(movie.id);
-        setIsFavorite(false);
-        success('Eliminado de favoritos');
+        await removeFromFavorites(movie.id);
+        success(t('toast.removedFromFavorites'));
       } else {
-        await userService.addToFavorites(movie.id);
-        setIsFavorite(true);
-        success('Agregado a favoritos');
+        await addToFavorites(movie.id);
+        success(t('toast.addedToFavorites'));
       }
     } catch (err) {
       console.error('Error al actualizar favoritos:', err);
-      showError('Error al actualizar favoritos');
+      showError(t('toast.error'));
     }
   };
 
@@ -105,17 +97,15 @@ const MovieDetail: React.FC = () => {
 
     try {
       if (isInWatchlist) {
-        await userService.removeFromWatchlist(movie.id);
-        setIsInWatchlist(false);
-        success('Eliminado de mi lista');
+        await removeFromWatchlist(movie.id);
+        success(t('toast.removedFromWatchlist'));
       } else {
-        await userService.addToWatchlist(movie.id);
-        setIsInWatchlist(true);
-        success('Agregado a mi lista');
+        await addToWatchlist(movie.id);
+        success(t('toast.addedToWatchlist'));
       }
     } catch (err) {
       console.error('Error al actualizar watchlist:', err);
-      showError('Error al actualizar mi lista');
+      showError(t('toast.error'));
     }
   };
 
@@ -127,12 +117,12 @@ const MovieDetail: React.FC = () => {
     return (
       <div className="min-h-screen bg-dark flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-white text-2xl font-bold mb-4">Película no encontrada</h2>
+          <h2 className="text-white text-2xl font-bold mb-4">{t('common.error')}</h2>
           <button
             onClick={() => navigate('/')}
             className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-lg transition-colors"
           >
-            Volver al inicio
+            {t('common.back')}
           </button>
         </div>
       </div>
@@ -199,7 +189,7 @@ const MovieDetail: React.FC = () => {
                   className="bg-primary hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-lg flex items-center space-x-2 transition-colors"
                 >
                   <Play className="w-5 h-5 fill-white" />
-                  <span>Ver Trailer</span>
+                  <span>{t('movie.trailer')}</span>
                 </button>
               )}
               <button
@@ -209,7 +199,7 @@ const MovieDetail: React.FC = () => {
                 } hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-lg flex items-center space-x-2 transition-colors`}
               >
                 <Heart className={`w-5 h-5 ${isFavorite ? 'fill-white' : ''}`} />
-                <span>{isFavorite ? 'En Favoritos' : 'Agregar a Favoritos'}</span>
+                <span>{isFavorite ? t('movie.removeFromFavorites') : t('movie.addToFavorites')}</span>
               </button>
               <button
                 onClick={handleToggleWatchlist}
@@ -218,7 +208,7 @@ const MovieDetail: React.FC = () => {
                 } hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-lg flex items-center space-x-2 transition-colors`}
               >
                 <List className="w-5 h-5" />
-                <span>{isInWatchlist ? 'En Mi Lista' : 'Agregar a Mi Lista'}</span>
+                <span>{isInWatchlist ? t('movie.removeFromWatchlist') : t('movie.addToWatchlist')}</span>
               </button>
             </div>
           </div>
@@ -231,13 +221,13 @@ const MovieDetail: React.FC = () => {
           {/* Columna principal */}
           <div className="md:col-span-2 space-y-8">
             <div>
-              <h2 className="text-3xl font-bold text-white mb-4">Sinopsis</h2>
+              <h2 className="text-3xl font-bold text-white mb-4">{t('movie.overview')}</h2>
               <p className="text-gray-300 text-lg leading-relaxed">{movie.overview}</p>
             </div>
 
             {/* Géneros */}
             <div>
-              <h3 className="text-xl font-bold text-white mb-3">Géneros</h3>
+              <h3 className="text-xl font-bold text-white mb-3">{t('movie.genres')}</h3>
               <div className="flex flex-wrap gap-2">
                 {movie.genres.map((genre) => (
                   <span
@@ -253,7 +243,7 @@ const MovieDetail: React.FC = () => {
             {/* Elenco */}
             {movie.credits && movie.credits.cast.length > 0 && (
               <div>
-                <h3 className="text-2xl font-bold text-white mb-6">Elenco Principal</h3>
+                <h3 className="text-2xl font-bold text-white mb-6">{t('movie.cast')}</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
                   {movie.credits.cast.slice(0, 8).map((actor) => (
                     <motion.div
@@ -299,26 +289,26 @@ const MovieDetail: React.FC = () => {
           {/* Columna lateral */}
           <div className="space-y-6">
             <div className="bg-dark-lighter p-6 rounded-lg">
-              <h3 className="text-xl font-bold text-white mb-4">Información</h3>
+              <h3 className="text-xl font-bold text-white mb-4">{t('movie.information')}</h3>
               <div className="space-y-3">
                 <div>
-                  <p className="text-gray-400 text-sm">Estado</p>
+                  <p className="text-gray-400 text-sm">{t('movie.status')}</p>
                   <p className="text-white font-semibold">{movie.status}</p>
                 </div>
                 <div>
-                  <p className="text-gray-400 text-sm">Presupuesto</p>
+                  <p className="text-gray-400 text-sm">{t('movie.budget')}</p>
                   <p className="text-white font-semibold">
                     ${movie.budget.toLocaleString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-400 text-sm">Recaudación</p>
+                  <p className="text-gray-400 text-sm">{t('movie.revenue')}</p>
                   <p className="text-white font-semibold">
                     ${movie.revenue.toLocaleString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-400 text-sm">Idioma Original</p>
+                  <p className="text-gray-400 text-sm">{t('movie.originalLanguage')}</p>
                   <p className="text-white font-semibold uppercase">
                     {movie.original_language}
                   </p>
@@ -332,7 +322,7 @@ const MovieDetail: React.FC = () => {
       {/* Películas similares */}
       {movie.similar && movie.similar.results.length > 0 && (
         <div className="mt-12">
-          <MovieRow title="Películas Similares" movies={movie.similar.results} />
+          <MovieRow title={t('movie.similar')} movies={movie.similar.results} />
         </div>
       )}
 
