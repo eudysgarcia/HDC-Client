@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Star, Clock, Calendar, Heart, List, Play, ArrowLeft } from 'lucide-react';
 import { movieService } from '../services/movieService';
-import { userService } from '../services/userService';
 import { reviewService } from '../services/reviewService';
 import { MovieDetails as MovieDetailsType } from '../types/movie.types';
 import { Review } from '../types/review.types';
