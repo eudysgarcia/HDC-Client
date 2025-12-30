@@ -38,6 +38,7 @@ interface RenderRepliesProps {
   handleSubmitReply: (parentReviewId: string) => void;
   handleCancelReply: () => void;
   level: number;
+  t: any;
 }
 
 const RenderReplies: React.FC<RenderRepliesProps> = ({
@@ -59,6 +60,7 @@ const RenderReplies: React.FC<RenderRepliesProps> = ({
   handleSubmitReply,
   handleCancelReply,
   level,
+  t,
 }) => {
   // Limitar el nivel de anidamiento visual (máximo 5 niveles)
   const maxLevel = 5;
@@ -230,6 +232,7 @@ const RenderReplies: React.FC<RenderRepliesProps> = ({
                   handleSubmitReply={handleSubmitReply}
                   handleCancelReply={handleCancelReply}
                   level={level + 1}
+                  t={t}
                 />
               )}
             </>
@@ -767,6 +770,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ movieId, movieTitle, revi
                       handleSubmitReply={handleSubmitReply}
                       handleCancelReply={handleCancelReply}
                       level={1}
+                      t={t}
                     />
                   )}
                 </>
