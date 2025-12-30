@@ -1,8 +1,10 @@
 import React from 'react';
 import { Film, Github, Twitter, Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Footer: React.FC = () => {
+  const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -18,7 +20,7 @@ const Footer: React.FC = () => {
               </span>
             </div>
             <p className="text-gray-400 mb-4">
-              Tu plataforma de información de películas. Descubre, explora y comparte tus opiniones sobre las mejores películas del cine.
+              {t('footer.tagline')}
             </p>
             <div className="flex space-x-4">
               <a
@@ -47,26 +49,26 @@ const Footer: React.FC = () => {
 
           {/* Enlaces rápidos */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Enlaces Rápidos</h3>
+            <h3 className="text-white font-semibold mb-4">{t('footer.quickLinks')}</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/" className="text-gray-400 hover:text-white transition-colors">
-                  Inicio
+                  {t('footer.home')}
                 </Link>
               </li>
               <li>
                 <Link to="/movies" className="text-gray-400 hover:text-white transition-colors">
-                  Películas
+                  {t('footer.movies')}
                 </Link>
               </li>
               <li>
                 <Link to="/trending" className="text-gray-400 hover:text-white transition-colors">
-                  Tendencias
+                  {t('footer.trending')}
                 </Link>
               </li>
               <li>
                 <Link to="/search" className="text-gray-400 hover:text-white transition-colors">
-                  Buscar
+                  {t('footer.search')}
                 </Link>
               </li>
             </ul>
@@ -74,21 +76,21 @@ const Footer: React.FC = () => {
 
           {/* Cuenta */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Mi Cuenta</h3>
+            <h3 className="text-white font-semibold mb-4">{t('footer.myAccount')}</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/profile" className="text-gray-400 hover:text-white transition-colors">
-                  Perfil
+                  {t('footer.profile')}
                 </Link>
               </li>
               <li>
                 <Link to="/favorites" className="text-gray-400 hover:text-white transition-colors">
-                  Favoritos
+                  {t('footer.favorites')}
                 </Link>
               </li>
               <li>
                 <Link to="/watchlist" className="text-gray-400 hover:text-white transition-colors">
-                  Mi Lista
+                  {t('footer.myList')}
                 </Link>
               </li>
             </ul>
@@ -98,7 +100,7 @@ const Footer: React.FC = () => {
         {/* Copyright */}
         <div className="border-t border-dark-lighter mt-8 pt-8 text-center text-gray-400">
           <p>
-            &copy; {currentYear} XEYA. Todos los derechos reservados. Powered by TMDB API.
+            &copy; {currentYear} XEYA. {t('footer.allRightsReserved')}
           </p>
         </div>
       </div>

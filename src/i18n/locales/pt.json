@@ -115,13 +115,22 @@
     "searching": "Buscando..."
   },
   "footer": {
-    "tagline": "Sua plataforma favorita para descobrir filmes e séries",
+    "tagline": "Sua plataforma de informações sobre filmes. Descubra, explore e compartilhe suas opiniões sobre os melhores filmes do cinema.",
     "aboutUs": "Sobre Nós",
     "contact": "Contato",
     "terms": "Termos de Serviço",
     "privacy": "Política de Privacidade",
     "followUs": "Siga-nos",
-    "allRightsReserved": "Todos os direitos reservados"
+    "allRightsReserved": "Todos os direitos reservados. Powered by TMDB API.",
+    "quickLinks": "Links Rápidos",
+    "myAccount": "Minha Conta",
+    "home": "Início",
+    "movies": "Filmes",
+    "trending": "Tendências",
+    "search": "Buscar",
+    "profile": "Perfil",
+    "favorites": "Favoritos",
+    "myList": "Minha Lista"
   },
   "common": {
     "loading": "Carregando...",
@@ -164,6 +173,8 @@
     "genre": "Gênero:",
     "synopsis": "Sinopse",
     "information": "Informação",
+    "episodes": "Episódios",
+    "cast": "Elenco",
     "studio": "Estúdio",
     "duration": "Duração",
     "source": "Fonte",
@@ -172,12 +183,40 @@
     "members": "Membros",
     "popularity": "Popularidade",
     "status": "Status",
-    "episodes": "Episódios",
     "minPerEp": "min por ep",
     "recommendations": "Recomendações",
     "backToAnime": "Voltar ao Anime",
     "noReviews": "Sem avaliações ainda. Seja o primeiro a escrever uma!",
-    "writeReview": "Escrever Avaliação"
-  }
-}
+    "writeReview": "Escrever Avaliação",
+    "reviews": "Avaliações",
+    "all": "Todos",
+    "finishedAiring": "Finalizado",
+    "currentlyAiring": "Em Exibição",
+    "notYetAired": "Não Exibido"
+  },
+  "tvshows": {
+    "title": "Séries de TV",
+    "subtitle": "As melhores séries e programas de televisão",
+    "popular": "📺 Populares",
+    "topRated": "🏆 Mais Bem Avaliados",
+    "onAir": "🔴 No Ar",
+    "category": "Categoria:",
+    "genre": "Gênero:",
+    "all": "Todos",
+    "information": "Informação",
+    "synopsis": "Sinopse",
+    "details": "Detalhes",
+    "seasons": "Temporadas",
+    "season": "Temporada",
+    "episodes": "Episódios",
+    "episodesCount": "episódios",
+    "cast": "Elenco",
+    "network": "Rede",
+    "language": "Idioma",
+    "type": "Tipo",
+    "days": "Dias",
+    "status": "Status",
+    "views": "Visualizações",
+    "inFavorites": "Favoritos"
+  },
 
