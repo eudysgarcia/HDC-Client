@@ -9,6 +9,7 @@ import Loading from '../components/Loading';
 import TrailerModal from '../components/TrailerModal';
 import ReviewSection from '../components/ReviewSection';
 import { useTranslation } from 'react-i18next';
+import { translateText } from '../services/translationService';
 
 const AnimeDetail: React.FC = () => {
   const { t } = useTranslation();
@@ -38,7 +39,16 @@ const AnimeDetail: React.FC = () => {
       try {
         setLoading(true);
         const response = await jikanService.getAnimeById(parseInt(id));
-        setAnime(response.data);
+        let animeData = response.data;
+
+        // Traducir sinopsis si el idioma no es inglés
+        const currentLang = localStorage.getItem('language') || 'en';
+        if (currentLang !== 'en' && animeData.synopsis) {
+          const translatedSynopsis = await translateText(animeData.synopsis, currentLang);
+          animeData = { ...animeData, synopsis: translatedSynopsis };
+        }
+
+        setAnime(animeData);
 
         // Cargar reviews
         await fetchReviews();

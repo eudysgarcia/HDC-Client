@@ -93,12 +93,12 @@ const Anime: React.FC = () => {
             loading="lazy"
           />
 
-          {/* Overlay en hover */}
+          {/* Overlay en hover - igual que películas */}
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 pointer-events-none">
             <div className="flex items-center justify-center mb-4">
-              <div className="bg-gradient-to-r from-primary via-pink-500 to-purple-500 text-white py-3 px-6 rounded-full font-bold flex items-center gap-2 shadow-2xl">
-                <Sparkles className="w-5 h-5" />
-                <span>{t('anime.viewDetails')}</span>
+              <div className="bg-gradient-to-r from-primary via-pink-500 to-purple-500 text-white px-2 py-2 rounded-full font-bold flex items-center gap-2 shadow-2xl">
+                <Sparkles className="w-3 h-3 fill-white" />
+                <span className="text-sm">{t('common.viewDetails')}</span>
               </div>
             </div>
           </div>

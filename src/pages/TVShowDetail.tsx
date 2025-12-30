@@ -17,6 +17,7 @@ import { TVShow, Episode, Cast, Season } from '../types/tvmaze.types';
 import ReviewSection from '../components/ReviewSection';
 import Loading from '../components/Loading';
 import { useTranslation } from 'react-i18next';
+import { translateText } from '../services/translationService';
 
 const TVShowDetail: React.FC = () => {
   const { t } = useTranslation();
@@ -45,7 +46,18 @@ const TVShowDetail: React.FC = () => {
           tvmazeService.getShowSeasons(showId),
         ]);
 
-        setShow(showData);
+        // Traducir sinopsis si el idioma no es inglés
+        const currentLang = localStorage.getItem('language') || 'en';
+        let translatedShow = showData;
+        
+        if (currentLang !== 'en' && showData.summary) {
+          // Remover HTML tags antes de traducir
+          const plainText = showData.summary.replace(/<[^>]*>/g, '');
+          const translatedSummary = await translateText(plainText, currentLang);
+          translatedShow = { ...showData, summary: translatedSummary };
+        }
+
+        setShow(translatedShow);
         setEpisodes(episodesData);
         setCast(castData);
         setSeasons(seasonsData);
