@@ -19,6 +19,8 @@ const LanguageSelector: React.FC = () => {
     i18n.changeLanguage(langCode);
     localStorage.setItem('language', langCode);
     setIsOpen(false);
+    // Recargar la página para que las películas se obtengan en el nuevo idioma
+    window.location.reload();
   };
 
   return (

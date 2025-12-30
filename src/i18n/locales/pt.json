@@ -132,7 +132,52 @@
     "previous": "Anterior",
     "viewDetails": "Ver Detalhes",
     "year": "Ano",
-    "notAvailable": "N/D"
+    "notAvailable": "N/D",
+    "sortBy": "Ordenar por:",
+    "genres": "Gêneros:",
+    "all": "Todos"
+  },
+  "movies": {
+    "title": "Catálogo de Filmes",
+    "subtitle": "Explore nossa coleção completa de filmes",
+    "popular": "Populares",
+    "topRated": "Mais Bem Avaliados",
+    "latest": "Lançamentos Recentes",
+    "category": "Categoria:"
+  },
+  "tvshows": {
+    "title": "Séries de TV",
+    "subtitle": "As melhores séries e programas de televisão",
+    "popular": "📺 Populares",
+    "topRated": "🏆 Mais Bem Avaliados",
+    "onAir": "🔴 No Ar",
+    "category": "Categoria:",
+    "genre": "Gênero:"
+  },
+  "anime": {
+    "title": "Anime",
+    "subtitle": "As melhores séries de animação japonesa",
+    "popular": "Populares",
+    "trending": "Em Tendência",
+    "topRated": "Mais Bem Avaliados",
+    "category": "Categoria:",
+    "genre": "Gênero:",
+    "synopsis": "Sinopse",
+    "information": "Informação",
+    "studio": "Estúdio",
+    "duration": "Duração",
+    "source": "Fonte",
+    "rating": "Classificação",
+    "score": "Pontuação",
+    "members": "Membros",
+    "popularity": "Popularidade",
+    "status": "Status",
+    "episodes": "Episódios",
+    "minPerEp": "min por ep",
+    "recommendations": "Recomendações",
+    "backToAnime": "Voltar ao Anime",
+    "noReviews": "Sem avaliações ainda. Seja o primeiro a escrever uma!",
+    "writeReview": "Escrever Avaliação"
   }
 }
 

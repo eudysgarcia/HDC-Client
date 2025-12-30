@@ -132,7 +132,52 @@
     "previous": "Previous",
     "viewDetails": "View Details",
     "year": "Year",
-    "notAvailable": "N/A"
+    "notAvailable": "N/A",
+    "sortBy": "Sort by:",
+    "genres": "Genres:",
+    "all": "All"
+  },
+  "movies": {
+    "title": "Movie Catalog",
+    "subtitle": "Explore our complete movie collection",
+    "popular": "Popular",
+    "topRated": "Top Rated",
+    "latest": "Latest Releases",
+    "category": "Category:"
+  },
+  "tvshows": {
+    "title": "TV Shows",
+    "subtitle": "The best series and television programs",
+    "popular": "📺 Popular",
+    "topRated": "🏆 Top Rated",
+    "onAir": "🔴 On Air",
+    "category": "Category:",
+    "genre": "Genre:"
+  },
+  "anime": {
+    "title": "Anime",
+    "subtitle": "The best Japanese animation series",
+    "popular": "Popular",
+    "trending": "Trending",
+    "topRated": "Top Rated",
+    "category": "Category:",
+    "genre": "Genre:",
+    "synopsis": "Synopsis",
+    "information": "Information",
+    "studio": "Studio",
+    "duration": "Duration",
+    "source": "Source",
+    "rating": "Rating",
+    "score": "Score",
+    "members": "Members",
+    "popularity": "Popularity",
+    "status": "Status",
+    "episodes": "Episodes",
+    "minPerEp": "min per ep",
+    "recommendations": "Recommendations",
+    "backToAnime": "Back to Anime",
+    "noReviews": "No reviews yet. Be the first to write one!",
+    "writeReview": "Write Review"
   }
 }
 

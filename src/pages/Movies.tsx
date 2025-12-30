@@ -5,8 +5,10 @@ import { movieService } from '../services/movieService';
 import { Movie, Genre } from '../types/movie.types';
 import MovieCard from '../components/MovieCard';
 import Loading from '../components/Loading';
+import { useTranslation } from 'react-i18next';
 
 const Movies: React.FC = () => {
+  const { t } = useTranslation();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,10 +64,10 @@ const Movies: React.FC = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-5xl font-bold text-white mb-4 bg-gradient-to-r from-primary to-red-500 bg-clip-text text-transparent">
-            Catálogo de Películas
+            {t('movies.title')}
           </h1>
           <p className="text-gray-400 text-lg">
-            Explora nuestra colección completa de películas
+            {t('movies.subtitle')}
           </p>
         </div>
 
@@ -77,7 +79,7 @@ const Movies: React.FC = () => {
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2 shrink-0">
                 <SortAsc className="w-5 h-5 text-gray-400" />
-                <span className="text-gray-400 font-semibold text-sm md:text-base">Ordenar:</span>
+                <span className="text-gray-400 font-semibold text-sm md:text-base">{t('common.sortBy')}</span>
               </div>
               
               {/* Mobile: Dropdown */}
@@ -86,9 +88,9 @@ const Movies: React.FC = () => {
                 onChange={(e) => setSortBy(e.target.value as 'popularity' | 'rating' | 'release')}
                 className="md:hidden flex-grow bg-dark-lighter text-white px-4 py-2 rounded-lg border border-dark-lighter focus:border-primary focus:outline-none"
               >
-                <option value="popularity">Populares</option>
-                <option value="rating">Mejor Valoradas</option>
-                <option value="release">Más Recientes</option>
+                <option value="popularity">{t('movies.popular')}</option>
+                <option value="rating">{t('movies.topRated')}</option>
+                <option value="release">{t('movies.latest')}</option>
               </select>
               
               {/* Desktop: Buttons */}
@@ -101,7 +103,7 @@ const Movies: React.FC = () => {
                       : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                   }`}
                 >
-                  Populares
+                  {t('movies.popular')}
                 </button>
                 <button
                   onClick={() => setSortBy('rating')}
@@ -111,7 +113,7 @@ const Movies: React.FC = () => {
                       : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                   }`}
                 >
-                  Mejor Valoradas
+                  {t('movies.topRated')}
                 </button>
                 <button
                   onClick={() => setSortBy('release')}
@@ -121,7 +123,7 @@ const Movies: React.FC = () => {
                       : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                   }`}
                 >
-                  Más Recientes
+                  {t('movies.latest')}
                 </button>
               </div>
             </div>
@@ -155,7 +157,7 @@ const Movies: React.FC = () => {
           <div className="mt-4 pt-4 border-t border-dark-lighter">
             <div className="flex items-center gap-2 mb-3">
               <Filter className="w-4 h-4 md:w-5 md:h-5 text-gray-400" />
-              <span className="text-gray-400 font-semibold text-sm md:text-base">Géneros:</span>
+              <span className="text-gray-400 font-semibold text-sm md:text-base">{t('common.genres')}</span>
             </div>
             
             {/* Mobile: Dropdown */}
@@ -164,7 +166,7 @@ const Movies: React.FC = () => {
               onChange={(e) => setSelectedGenre(e.target.value ? parseInt(e.target.value) : null)}
               className="md:hidden w-full bg-dark-lighter text-white px-4 py-2 rounded-lg border border-dark-lighter focus:border-primary focus:outline-none"
             >
-              <option value="">Todos los géneros</option>
+              <option value="">{t('common.all')}</option>
               {genres.map(genre => (
                 <option key={genre.id} value={genre.id}>
                   {genre.name}
@@ -182,7 +184,7 @@ const Movies: React.FC = () => {
                     : 'bg-dark-lighter text-gray-400 hover:bg-dark hover:text-white'
                 }`}
               >
-                Todos
+                {t('common.all')}
               </button>
               {genres.map(genre => (
                 <button
